@@ -1,6 +1,6 @@
 :root {
-    --bg: #0C0C0C;
-    --txt: #CCCCCC;
+    --bg:#CCCCCC;
+    --txt:#0C0C0C ;
 }
 
 body {
@@ -8,7 +8,16 @@ body {
     color: var(--txt);
 
     text-align: center;
+    margin-right: 30rem;
 }
+
+.row{
+    border: 2px solid var(--txt);
+    margin: 5rem;
+    padding: 1rem;
+    box-shadow: 12px 12px 2px 1px rgba(0,0,0,0.1);
+}
+
 
 .homeButtons{
     align-items: center;
@@ -18,14 +27,29 @@ ul{
     display: inline-block;
     margin: 0;
     padding: 0;
+    list-style-type: none;
+}
+
+li{
+    margin-top: 1rem;
 }
 
 a {
     border: 1px solid var(--txt);
-    border-radius: 5px;
     display: inline-block;
     padding: 0.1rem 1rem;
     margin-right: 1rem;
 
     color: var(--txt);
+    text-decoration: none;
+}
+@media all and (max-width:70em){
+    a {
+        display:block;
+        margin:0.4em auto;
+        margin-top: 20px;
+    }
+    body {
+        margin-right: 0;
+    }
 }
