@@ -1,46 +1,38 @@
 :root {
-    --bg:#CCCCCC;
-    --txt:#0C0C0C ;
+    --bg:#262626;
+    --txt:#C9A26D;
+    --btc:#C191FF; 
 }
-
 body {
     background-color: var(--bg);
     color: var(--txt);
-
-    text-align: center;
-    margin-right: 30rem;
+    font-family:Consolas;
+    font-size:130%;
 }
-
-.row{
-    border: 2px solid var(--txt);
-    margin: 5rem;
-    padding: 1rem;
-    box-shadow: 12px 12px 2px 1px rgba(0,0,0,0.1);
+.row {
+    max-width: 650px;
+    margin: 20px auto 20px auto;
+    padding-left: 15px;
+    padding-right: 15px
 }
-
-
-.homeButtons{
-    align-items: center;
+.wrapper {
+    display: grid;
+    place-items: center;
 }
-
-ul{
+.typing { 
+    width: 22ch;
+    animation: typing 2s steps(22), blink .6s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-size: 2em;
+}
+section{
+    padding-top: 1ch;
+}
+a{
     display: inline-block;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-li{
-    margin-top: 1rem;
-}
-
-a {
-    border: 1px solid var(--txt);
-    display: inline-block;
-    padding: 0.1rem 1rem;
-    margin-right: 1rem;
-
-    color: var(--txt);
+    color: var(--btc);
     text-decoration: none;
 }
 @media all and (max-width:70em){
@@ -51,5 +43,15 @@ a {
     }
     body {
         margin-right: 0;
+    }
+}
+@keyframes typing {
+    from {
+        width: 0
+    }
+}   
+@keyframes blink {
+    50% {
+        border-color: transparent
     }
 }
