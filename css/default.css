@@ -30,7 +30,11 @@ body {
 section{
     padding-top: 1ch;
 }
-a{
+button{
+    border: 0;
+    background-color: var(--bg);
+}
+a, button{
     display: inline-block;
     color: var(--btc);
     text-decoration: none;

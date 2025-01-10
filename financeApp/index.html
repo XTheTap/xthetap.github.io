@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Your balance</title>
+      <meta name="description" content="Finance app">
+      <meta name="author" content="Ilya Zhukouski">
+      <link rel="stylesheet" href="../css/default.css">
+      <script src="../js/default.js"></script>
+      <link rel="shortcut icon" href="../ico.webp" >
+   </head>
+
+   <body>
+      <div class="row">
+         <h4>Карты и счета</h4>
+         <div id="accounts">
+         </div>
+
+         <form id="accountForm">
+            <input type="text" id="accountName" placeholder="Название счёта" required>
+            <input type="text" id="currency" placeholder="Валюта (например, USD)" required>
+            <input type="number" id="balance" placeholder="Баланс" required>
+            <button type="submit">> Добавить</button>
+        </form>
+      </div>
+      <script src="../js/financeApp.js"></script>  
+   </body>
+</html>
