@@ -1,10 +1,11 @@
 var CACHE_NAME = 'finance-offline-cache';
 var urlsToCache = [
-  '/financeApp',
-  '/financeApp/sw.js',
+  './sw.js',
+  './index.html', 
   '../js/default.js',
   '../js/financeApp.js',
-  '../css/default.css'
+  '../css/default.css',
+  '../ico.webp'
 ];
 
 self.addEventListener('install', function(event) {
