@@ -5,24 +5,73 @@
       <title>Your balance</title>
       <meta name="description" content="Finance app">
       <meta name="author" content="Ilya Zhukouski">
-      <link rel="stylesheet" href="../css/default.css">
+      <link rel="stylesheet" href="../css/financeApp.css">
       <script src="../js/default.js"></script>
       <link rel="shortcut icon" href="../ico.webp" >
    </head>
 
    <body>
-      <div class="row">
-         <h4>Карты и счета</h4>
+      <section id="bills">
+         <h2>Карты и счета</h2>
+
          <div id="accounts">
          </div>
 
+         <a href="#addBill">+ Добавить карту, вклад, кредит...</a> 
+      </section>
+
+
+      <section id="operations">
+         
+         <div id="operation">
+         </div>
+
+         <a href="#addOperation">+ Добавить операцию</a> 
+      </section>
+
+      <section id="analithic">
+         Вы молодец!    
+      </section>
+
+      <section id="other">
+         <button type="submit">> Импортировать данные</button>
+         <button type="submit">> Экспортировать данные</button>
+      </section>
+
+      <section id="addBill">
          <form id="accountForm">
-            <input type="text" id="accountName" placeholder="Название счёта" required>
-            <input type="text" id="currency" placeholder="Валюта (например, USD)" required>
-            <input type="number" id="balance" placeholder="Баланс" required>
+            <ul>
+               <li><input type="text" id="accountName" placeholder="Название счёта"  required></li>
+               <li><input type="text" id="currency" placeholder="Валюта (например, USD)" required></li>
+               <li><input type="number" step="any" id="balance" placeholder="Баланс" required></li>
+            </ul>
             <button type="submit">> Добавить</button>
-        </form>
-      </div>
-      <script src="../js/financeApp.js"></script>  
-   </body>
+         </form>
+      </section>
+
+      <section id="addOperation">
+         <form id="operationForm">
+            <ul>
+               <li><h1><input type="number" step="any" id="summ" placeholder="Сумма" required></h1></li>
+               <li><input type="text" id="bill" placeholder="Счёт (сделать выпадашкой)" required></li>
+               <li><input type="text" id="tag" placeholder="Тэг (сделать выпадашкой)"></li>
+               <li><input type="text" id="comment" placeholder="Комментарий"></li>
+            </ul>
+            <button type="submit">> Добавить</button>
+         </form>
+      </section>
+
+      <nav>
+         <ul>
+            <li><a href="#bills">Счета</a></li>
+            <li><a href="#operations">Операции</a></li>
+            <li><a href="#analithic">Аналитика</a></li>
+            <li><a href="#other">Ещё</a></li>
+         </ul>
+      </nav>
+   
+   <script src="../js/bills.js"></script> 
+   <script src="../js/operations.js"></script> 
+   <script src="../js/selector.js"></script>
+</body>
 </html>

@@ -21,11 +21,10 @@ function renderAccounts() {
         const accountDiv = document.createElement('div');
         accountDiv.className = 'account';
         accountDiv.innerHTML = 
-        `   <div>
-            ${account.name}
-            <tt style="padding-left: 40%">${account.balance} ${account.currency}</tt>
-            <button onclick="deleteAccount(${index})">> Удалить</button>
-            </div>`;
+        `<div class="billField">
+        <span>${account.name}</span>
+        <tt>${account.balance} ${account.currency}</tt>
+        </div>`;
         accountsContainer.appendChild(accountDiv);
     });
 }
@@ -46,13 +45,4 @@ accountForm.addEventListener('submit', (e) => {
     accountForm.reset(); // Очистка формы
 });
 
-// Удаление счёта
-function deleteAccount(index) {
-    const accounts = getAccounts();
-    accounts.splice(index, 1);
-    saveAccounts(accounts);
-    renderAccounts();
-}
-
-// Инициализация
 renderAccounts();
