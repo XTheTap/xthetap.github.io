@@ -12,12 +12,15 @@ function saveAccounts(accounts) {
     localStorage.setItem('accounts', JSON.stringify(accounts));
 }
 
-// Отображение счетов
+function generateId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
+
 function renderAccounts() {
     accountsContainer.innerHTML = ''; 
 
     const accounts = getAccounts();
-    accounts.forEach((account, index) => {
+    accounts.forEach((account) => {
         const accountDiv = document.createElement('div');
         accountDiv.className = 'account';
         accountDiv.innerHTML = 
@@ -29,20 +32,43 @@ function renderAccounts() {
     });
 }
 
-// Добавление нового счёта
 accountForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('accountName').value;
     const currency = document.getElementById('currency').value;
     const balance = parseFloat(document.getElementById('balance').value);
+    const id = generateId();
 
-    const newAccount = { name, currency, balance };
+    const newAccount = { id, name, currency, balance };
     const accounts = getAccounts();
     accounts.push(newAccount);
     saveAccounts(accounts);
     renderAccounts();
 
-    accountForm.reset(); // Очистка формы
+    accountForm.reset();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tagSelect = document.getElementById('currency');
+
+    fetch('../json/currencies.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки данных');
+        }
+        return response.json();
+    })
+    .then(data => {
+        data.forEach(currency => {
+            const option = document.createElement('option');
+            option.value = currency;
+            option.textContent = currency;
+            tagSelect.appendChild(option);
+        });
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
 });
 
 renderAccounts();

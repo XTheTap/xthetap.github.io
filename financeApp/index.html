@@ -9,11 +9,8 @@
       <script src="../js/default.js"></script>
       <link rel="shortcut icon" href="../ico.webp" >
    </head>
-
    <body>
       <section id="bills">
-         <h2>Карты и счета</h2>
-
          <div id="accounts">
          </div>
 
@@ -42,7 +39,11 @@
          <form id="accountForm">
             <ul>
                <li><input type="text" id="accountName" placeholder="Название счёта"  required></li>
-               <li><input type="text" id="currency" placeholder="Валюта (например, USD)" required></li>
+               <li>
+                  <select id="currency">
+                     <option value="" disabled selected>Выберите тэг</option>
+                  </select>
+               </li>
                <li><input type="number" step="any" id="balance" placeholder="Баланс" required></li>
             </ul>
             <button type="submit">> Добавить</button>
@@ -53,8 +54,16 @@
          <form id="operationForm">
             <ul>
                <li><h1><input type="number" step="any" id="summ" placeholder="Сумма" required></h1></li>
-               <li><input type="text" id="bill" placeholder="Счёт (сделать выпадашкой)" required></li>
-               <li><input type="text" id="tag" placeholder="Тэг (сделать выпадашкой)"></li>
+               <li> 
+                  <select id="bill">
+                     <option value="" disabled selected>Выберите счёт</option>
+                  </select>
+               </li>
+               <li>   
+                  <select id="tag">
+                     <option value="" disabled selected>Выберите тэг</option>
+                  </select>
+               </li>
                <li><input type="text" id="comment" placeholder="Комментарий"></li>
             </ul>
             <button type="submit">> Добавить</button>
@@ -70,8 +79,8 @@
          </ul>
       </nav>
    
-   <script src="../js/bills.js"></script> 
-   <script src="../js/operations.js"></script> 
-   <script src="../js/selector.js"></script>
-</body>
+      <script src="../js/bills.js"></script> 
+      <script src="../js/operations.js"></script> 
+      <script src="../js/selector.js"></script>
+   </body>
 </html>

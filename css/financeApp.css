@@ -64,6 +64,24 @@ input {
 input, button, textarea, select {
     font-size: inherit;
 }
+select {
+    display: block;
+    width: 100%;
+    background: none;
+    margin-top: 10px;
+    outline: none;
+    color: var(--inpclr);
+    background-color: var(--bg);
+    border: 0;
+}
+select:focus {
+    border-color: #ff9800;
+    box-shadow: 0 0 5px #ff9800;
+}
+select option {
+    background-color: var(--bg);
+    color: var(--txt);
+}
 @media all and (max-width:70em){
     a {
         display:block;
