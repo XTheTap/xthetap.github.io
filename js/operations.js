@@ -1,70 +1,53 @@
 const operationContainer = document.getElementById('operation');
 const operationForm = document.getElementById('operationForm');
 
-function getOperations() {
-    return JSON.parse(localStorage.getItem('operations')) || [];
-}
-
-function saveOperations(accounts) {
-    localStorage.setItem('operations', JSON.stringify(accounts));
-}
-
-function generateId() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-}
-
-function getAccountById(accountId) {
-    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
-    return accounts.find(account => account.id === accountId);
-}
+const getOperations = () => getFromLocalStorage('operations');
+const saveOperations = (operations) => saveToLocalStorage('operations', operations);
+const getAccountById = (id) => getFromLocalStorage('accounts').find(acc => acc.id === id);
 
 function renderOperations() {
     operationContainer.innerHTML = ''; 
+    const template = document.getElementById('operationTemplate');
+    const grouped = getOperations().reduce((acc, op) => {
+        const dateKey = getDateKey(new Date(op.currentDate));
+        (acc[dateKey] = acc[dateKey] || []).push(op);
+        return acc;
+    }, {});
 
-    const operations = getOperations();
-    operations.forEach((operation) => {
-        const account = getAccountById(operation.bill); 
-        const accountName = account ? `${account.name}` : 'Счёт не найден или удалён';
-        const accountCurrency = account ? `${account.currency}` : 'NoN';
-
-        const operationDiv = document.createElement('div');
-        operationDiv.className = 'operation';
-        operationDiv.dataset.id = operation.id; 
-        operationDiv.innerHTML = 
-        `<div class="billField">
-        <tt>${accountName}</tt>
-        <span>-${operation.summ} ${accountCurrency}</span>
-        </div>`;
-        operationContainer.appendChild(operationDiv);
+    Object.entries(grouped).forEach(([dateKey, operations]) => {
+        operationContainer.innerHTML += `<h3>${dateKey}</h3>`;
+        operations.forEach(({ bill, summ, comment, currentDate }) => {
+            const account = getAccountById(bill) || {};
+            const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
+            const operationElement = template.content.cloneNode(true);
+            operationElement.querySelector('.accountName').textContent = name;
+            operationElement.querySelector('.operationAmount').textContent = `-${summ} ${currency}`;
+            operationElement.querySelector('.operationComment').textContent = comment || '';
+            operationElement.querySelector('.operationDate').textContent = `Дата: ${new Date(currentDate).toLocaleDateString()}`;
+            operationContainer.appendChild(operationElement);
+        });
     });
 }
 
 operationForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const summ = parseFloat(document.getElementById('summ').value);
-    const bill = document.getElementById('bill').value;
-    const tag = document.getElementById('tag').value;
-    const comment = document.getElementById('comment').value;
-    const currentDate = Date.now();
-    const id = generateId();
-
-    const newOperation = { id, summ, bill, tag, comment, currentDate };
-    const operation = getOperations();
-    operation.push(newOperation);
-    saveOperations(operation);
+    const { value: summ } = document.getElementById('summ');
+    const { value: bill } = document.getElementById('bill');
+    const { value: tag } = document.getElementById('tag');
+    const { value: comment } = document.getElementById('comment');
+    const newOperation = { id: generateId(), summ: parseFloat(summ), bill, tag, comment, currentDate: Date.now() };
+    saveOperations([...getOperations(), newOperation]);
     renderOperations();
-
+    window.location.hash = '#operations';
     operationForm.reset();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     const billSelect = document.getElementById('bill');
-
-    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
-    accounts.forEach(account => {
+    (getFromLocalStorage('accounts') || []).forEach(({ id, name, balance, currency }) => {
         const option = document.createElement('option');
-        option.value = account.id; 
-        option.textContent = `${account.name} (${account.balance} ${account.currency})`;
+        option.value = id;
+        option.textContent = `${name} (${balance} ${currency})`;
         billSelect.appendChild(option);
     });
 });

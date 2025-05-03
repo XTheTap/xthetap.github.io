@@ -1,74 +1,44 @@
-
 const accountsContainer = document.getElementById('accounts');
 const accountForm = document.getElementById('accountForm');
 
-// Чтение данных из LocalStorage
-function getAccounts() {
-    return JSON.parse(localStorage.getItem('accounts')) || [];
-}
-
-// Сохранение данных в LocalStorage
-function saveAccounts(accounts) {
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-}
-
-function generateId() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-}
+const getAccounts = () => getFromLocalStorage('accounts');
+const saveAccounts = (accounts) => saveToLocalStorage('accounts', accounts);
 
 function renderAccounts() {
     accountsContainer.innerHTML = ''; 
-
-    const accounts = getAccounts();
-    accounts.forEach((account) => {
-        const accountDiv = document.createElement('div');
-        accountDiv.className = 'account';
-        accountDiv.innerHTML = 
-        `<div class="billField">
-        <span>${account.name}</span>
-        <tt>${account.balance} ${account.currency}</tt>
-        </div>`;
-        accountsContainer.appendChild(accountDiv);
+    const template = document.getElementById('accountTemplate');
+    getAccounts().forEach(({ name, balance, currency }) => {
+        const accountElement = template.content.cloneNode(true);
+        accountElement.querySelector('.accountName').textContent = name;
+        accountElement.querySelector('.accountBalance').textContent = `${balance} ${currency}`;
+        accountsContainer.appendChild(accountElement);
     });
 }
 
 accountForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('accountName').value;
-    const currency = document.getElementById('currency').value;
+    const { value: name } = document.getElementById('accountName');
+    const { value: currency } = document.getElementById('currency');
     const balance = parseFloat(document.getElementById('balance').value);
-    const id = generateId();
-
-    const newAccount = { id, name, currency, balance };
-    const accounts = getAccounts();
-    accounts.push(newAccount);
-    saveAccounts(accounts);
+    const newAccount = { id: generateId(), name, currency, balance };
+    saveAccounts([...getAccounts(), newAccount]);
     renderAccounts();
-
+    window.location.hash = '#bills';
     accountForm.reset();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const tagSelect = document.getElementById('currency');
-
     fetch('../json/currencies.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка загрузки данных');
-        }
-        return response.json();
-    })
-    .then(data => {
-        data.forEach(currency => {
-            const option = document.createElement('option');
-            option.value = currency;
-            option.textContent = currency;
-            tagSelect.appendChild(option);
-        });
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
+        .then((res) => res.ok ? res.json() : Promise.reject('Ошибка загрузки данных'))
+        .then((data) => {
+            const tagSelect = document.getElementById('currency');
+            data.forEach((currency) => {
+                const option = document.createElement('option');
+                option.value = option.textContent = currency;
+                tagSelect.appendChild(option);
+            });
+        })
+        .catch(console.error);
 });
 
 renderAccounts();

@@ -1,0 +1,51 @@
+{
+  "expense": [
+    {
+      "name": "На машину",
+      "icon": "icons/car.png",
+      "children": [
+        { "name": "Бензин", "icon": "icons/fuel.png" },
+        { "name": "Ремонт", "icon": "icons/repair.png" }
+      ]
+    },
+    {
+      "name": "На продукты",
+      "icon": "icons/groceries.png",
+      "children": [
+        { "name": "Овощи", "icon": "icons/vegetables.png" },
+        { "name": "Фрукты", "icon": "icons/fruits.png" }
+      ]
+    },
+    {
+      "name": "На одежду",
+      "icon": "icons/clothing.png",
+      "children": [
+        { "name": "Обувь", "icon": "icons/shoes.png" },
+        { "name": "Аксессуары", "icon": "icons/accessories.png" }
+      ]
+    }
+  ],
+  "income": [
+    {
+      "name": "Зарплата",
+      "icon": "icons/salary.png",
+      "children": []
+    },
+    {
+      "name": "Подарки",
+      "icon": "icons/gifts.png",
+      "children": [
+        { "name": "Деньги", "icon": "icons/money-gift.png" },
+        { "name": "Сертификаты", "icon": "icons/certificates.png" }
+      ]
+    },
+    {
+      "name": "Инвестиции",
+      "icon": "icons/investments.png",
+      "children": [
+        { "name": "Акции", "icon": "icons/stocks.png" },
+        { "name": "Облигации", "icon": "icons/bonds.png" }
+      ]
+    }
+  ]
+}

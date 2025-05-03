@@ -70,6 +70,29 @@
          </form>
       </section>
 
+      <template id="operationTemplate">
+         <div class="operation">
+            <div class="billField">
+               <tt class="accountName"></tt>
+               <span class="operationAmount"></span>
+            </div>
+            <div class="operationDetails">
+               <small class="operationTag"></small>
+               <small class="operationComment"></small>
+               <small class="operationDate"></small>
+            </div>
+         </div>
+      </template>
+
+      <template id="accountTemplate">
+         <div class="account">
+             <div class="billField">
+                 <span class="accountName"></span>
+                 <tt class="accountBalance"></tt>
+             </div>
+         </div>
+      </template>
+
       <nav>
          <ul>
             <li><a href="#bills">Счета</a></li>
@@ -79,6 +102,7 @@
          </ul>
       </nav>
    
+      <script src="../js/common.js"></script> 
       <script src="../js/bills.js"></script> 
       <script src="../js/operations.js"></script> 
       <script src="../js/selector.js"></script>
