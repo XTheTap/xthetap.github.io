@@ -1,3 +1,5 @@
+showSection('bills');
+
 const getFromLocalStorage = (key) => JSON.parse(localStorage.getItem(key)) || [];
 const saveToLocalStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
@@ -10,3 +12,15 @@ const getDateKey = (date) => {
            isSameDay(date, yesterday) ? `Вчера, ${yesterday.toLocaleDateString()}` :
            `${date.toLocaleDateString()}, ${date.toLocaleDateString('ru-RU', { weekday: 'long' })}`;
 };
+
+function showSection(id) {
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+      section.classList.remove('active');
+    });
+    
+    const active = document.getElementById(id);
+    if (active) {
+      active.classList.add('active');
+    }
+  }

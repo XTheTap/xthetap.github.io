@@ -14,16 +14,21 @@
          <div id="accounts">
          </div>
 
-         <a href="#addBill">+ Добавить карту, вклад, кредит...</a> 
+         <a onclick="showSection('addBill')">+ Добавить карту, вклад, кредит...</a> 
       </section>
 
 
       <section id="operations">
-         
          <div id="operation">
          </div>
 
-         <a href="#addOperation">+ Добавить операцию</a> 
+         <div id="operation-toggle" class="add-operation">
+            <button id="main-add-btn">➕</button>
+            <div id="operation-options" class="hidden">
+              <button data-type="addOperation">Доход</button>
+              <button data-type="addOperation">Расход</button>
+            </div>
+          </div>
       </section>
 
       <section id="analithic">
@@ -70,6 +75,15 @@
          </form>
       </section>
 
+      <section id="accountDetails" style="display: none;">
+         <h2>Детали счёта</h2>
+         <div id="accountOperations"></div>
+         <div id="accountSummary">
+            <h3>Результаты за текущий месяц:</h3>
+            <p id="monthlyResult"></p>
+         </div>
+      </section>
+
       <template id="operationTemplate">
          <div class="operation">
             <div class="billField">
@@ -95,10 +109,10 @@
 
       <nav>
          <ul>
-            <li><a href="#bills">Счета</a></li>
-            <li><a href="#operations">Операции</a></li>
-            <li><a href="#analithic">Аналитика</a></li>
-            <li><a href="#other">Ещё</a></li>
+            <li><a onclick="showSection('bills')">Счета</a></li>
+            <li><a onclick="showSection('operations')">Операции</a></li>
+            <li><a onclick="showSection('analithic')">Аналитика</a></li>
+            <li><a onclick="showSection('other')">Ещё</a></li>
          </ul>
       </nav>
    
@@ -106,5 +120,6 @@
       <script src="../js/bills.js"></script> 
       <script src="../js/operations.js"></script> 
       <script src="../js/selector.js"></script>
+      <script src="../js/style.js"></script>
    </body>
 </html>

@@ -65,7 +65,7 @@ operationForm.addEventListener('submit', (e) => {
     saveOperations([...getOperations(), newOperation]);
     renderOperations();
     renderAccounts(); 
-    window.location.hash = '#operations';
+    showSection('operations');
     operationForm.reset();
 });
 
