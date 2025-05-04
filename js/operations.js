@@ -8,14 +8,21 @@ const getAccountById = (id) => getFromLocalStorage('accounts').find(acc => acc.i
 function renderOperations() {
     operationContainer.innerHTML = ''; 
     const template = document.getElementById('operationTemplate');
-    const grouped = getOperations().reduce((acc, op) => {
+    const operations = getOperations();
+
+    operations.sort((a, b) => new Date(b.currentDate) - new Date(a.currentDate));
+
+    const grouped = operations.reduce((acc, op) => {
         const dateKey = getDateKey(new Date(op.currentDate));
         (acc[dateKey] = acc[dateKey] || []).push(op);
         return acc;
     }, {});
 
     Object.entries(grouped).forEach(([dateKey, operations]) => {
-        operationContainer.innerHTML += `<h3>${dateKey}</h3>`;
+        const dateHeader = document.createElement('h3');
+        dateHeader.textContent = dateKey;
+        operationContainer.appendChild(dateHeader);
+
         operations.forEach(({ bill, summ, comment, currentDate }) => {
             const account = getAccountById(bill) || {};
             const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
@@ -35,9 +42,29 @@ operationForm.addEventListener('submit', (e) => {
     const { value: bill } = document.getElementById('bill');
     const { value: tag } = document.getElementById('tag');
     const { value: comment } = document.getElementById('comment');
-    const newOperation = { id: generateId(), summ: parseFloat(summ), bill, tag, comment, currentDate: Date.now() };
+
+    const amount = parseFloat(summ);
+    const newOperation = { 
+        id: generateId(), 
+        summ: amount, 
+        bill, 
+        tag, 
+        comment, 
+        type: 'expense',
+        currentDate: Date.now() 
+    };
+
+    const accounts = getFromLocalStorage('accounts');
+    const account = accounts.find(acc => acc.id === bill);
+
+    if (newOperation.type === 'expense') {
+        account.balance -= amount;
+    }
+
+    saveAccounts(accounts);
     saveOperations([...getOperations(), newOperation]);
     renderOperations();
+    renderAccounts(); 
     window.location.hash = '#operations';
     operationForm.reset();
 });
