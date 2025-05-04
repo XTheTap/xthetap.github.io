@@ -25,8 +25,9 @@
          <div id="operation-toggle" class="add-operation">
             <button id="main-add-btn">➕</button>
             <div id="operation-options" class="hidden">
-              <button data-type="addOperation">Доход</button>
-              <button data-type="addOperation">Расход</button>
+              <button data-type="income">Доход</button>
+              <button data-type="expense">Расход</button>
+              <button data-type="transfer">Перевод</button>
             </div>
           </div>
       </section>
@@ -59,6 +60,14 @@
          <form id="operationForm">
             <ul>
                <li><h1><input type="number" step="any" id="summ" placeholder="Сумма" required></h1></li>
+               <li>
+                  <select id="operationType" required>
+                     <option value="" disabled selected>Выберите тип операции</option>
+                     <option value="expense">Расход</option>
+                     <option value="income">Доход</option>
+                     <option value="transfer">Перевод</option>
+                  </select>
+               </li>
                <li> 
                   <select id="bill">
                      <option value="" disabled selected>Выберите счёт</option>

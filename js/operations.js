@@ -39,6 +39,7 @@ function renderOperations() {
 operationForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const { value: summ } = document.getElementById('summ');
+    const { value: operationType } = document.getElementById('operationType');
     const { value: bill } = document.getElementById('bill');
     const { value: tag } = document.getElementById('tag');
     const { value: comment } = document.getElementById('comment');
@@ -50,15 +51,20 @@ operationForm.addEventListener('submit', (e) => {
         bill, 
         tag, 
         comment, 
-        type: 'expense',
+        type: operationType,
         currentDate: Date.now() 
     };
 
     const accounts = getFromLocalStorage('accounts');
     const account = accounts.find(acc => acc.id === bill);
 
-    if (newOperation.type === 'expense') {
+    if (operationType === 'expense') {
         account.balance -= amount;
+    } else if (operationType === 'income') {
+        account.balance += amount;
+    } else if (operationType === 'transfer') {
+        // Handle transfer logic here if needed
+        alert('Перевод пока не реализован.');
     }
 
     saveAccounts(accounts);

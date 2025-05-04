@@ -8,7 +8,11 @@ mainAddBtn.addEventListener('click', () => {
 document.querySelectorAll('#operation-options button').forEach(btn => {
   btn.addEventListener('click', () => {
     const type = btn.dataset.type;
-    showSection(type); 
+    const operationTypeSelect = document.getElementById('operationType');
+    if (operationTypeSelect) {
+      operationTypeSelect.value = type === 'addOperation' ? 'expense' : type; // Default to 'expense'
+    }
+    showSection('addOperation'); 
     optionsDiv.classList.add('hidden');
   });
 });
