@@ -97,22 +97,39 @@ select option {
 }
 .add-operation {
     position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 10px;
+    right: 10px;
+    transform: none;
     z-index: 1001;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
+    padding: 10px; /* Добавляем отступы */
+    background-color: #444; /* Улучшаем видимость кнопки */
+    border-radius: 8px; /* Добавляем скругление */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Добавляем тень */
+}
+
+.add-operation:hover {
+    background-color: #555; /* Изменяем цвет при наведении */
+}
+
+#operation-options {
+    position: absolute; /* Делаем выпадающий список абсолютным */
+    right: 100%; /* Выпадает слева от кнопки */
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Выравниваем элементы вправо */
 }
 
 #operation-options.hidden {
-display: none;
+    display: none;
 }
 
 #operation-options button {
-margin-top: 5px;
-width: 160px;
+    margin-top: 5px;
+    width: 160px;
 }
 @media all and (max-width:70em){
     a {

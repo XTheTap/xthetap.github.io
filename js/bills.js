@@ -48,20 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderAccountDetails(accountId) {
     const accountDetailsSection = document.getElementById('accountDetails');
     const accountOperationsContainer = document.getElementById('accountOperations');
-    const monthlyResultElement = document.getElementById('monthlyResult');
     const account = getAccounts().find(acc => acc.id === accountId);
 
     if (!account) return;
 
     accountDetailsSection.style.display = 'block';
     accountOperationsContainer.innerHTML = '';
-    monthlyResultElement.textContent = '';
 
     const operations = getFromLocalStorage('operations').filter(op => op.bill === accountId);
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
 
-    let monthlyTotal = 0;
+    let positiveExpenses = 0;
+    let negativeExpenses = 0;
 
     const grouped = operations.reduce((acc, op) => {
         const dateKey = getDateKey(new Date(op.currentDate));
@@ -79,20 +78,24 @@ function renderAccountDetails(accountId) {
             .forEach(({ summ, comment, currentDate }) => {
                 const operationDate = new Date(currentDate);
                 if (operationDate.getMonth() === currentMonth && operationDate.getFullYear() === currentYear) {
-                    monthlyTotal += summ;
+                    if (summ > 0) {
+                        positiveExpenses += summ;
+                    } else {
+                        negativeExpenses += summ;
+                    }
                 }
 
                 const operationElement = document.createElement('div');
                 operationElement.innerHTML = `
                     <p>Сумма: ${summ}</p>
                     <p>Комментарий: ${comment || 'Нет комментария'}</p>
-                    <p>Дата: ${operationDate.toLocaleDateString()}</p>
                 `;
                 accountOperationsContainer.appendChild(operationElement);
             });
     });
 
-    monthlyResultElement.textContent = `${monthlyTotal} ${account.currency}`;
+    document.getElementById('positiveExpenses').textContent = `${positiveExpenses} ${account.currency}`;
+    document.getElementById('negativeExpenses').textContent = `${negativeExpenses} ${account.currency}`;
     
     showSection('accountDetails');
 }

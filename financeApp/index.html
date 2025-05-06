@@ -6,6 +6,7 @@
       <meta name="description" content="Finance app">
       <meta name="author" content="Ilya Zhukouski">
       <link rel="stylesheet" href="../css/financeApp.css">
+      <link rel="manifest" href="manifest.json">
       <script src="../js/default.js"></script>
       <link rel="shortcut icon" href="../ico.webp" >
    </head>
@@ -24,11 +25,11 @@
 
          <div id="operation-toggle" class="add-operation">
             <button id="main-add-btn">➕</button>
-            <div id="operation-options" class="hidden">
-              <button data-type="income">Доход</button>
-              <button data-type="expense">Расход</button>
-              <button data-type="transfer">Перевод</button>
-            </div>
+            <ul id="operation-options" class="hidden">
+               <li><button data-type="income">Доход</button></li>
+               <li><button data-type="expense">Расход</button></li>
+               <li><button data-type="transfer">Перевод</button></li>
+            </ul>
           </div>
       </section>
 
@@ -86,11 +87,18 @@
 
       <section id="accountDetails" style="display: none;">
          <h2>Детали счёта</h2>
-         <div id="accountOperations"></div>
          <div id="accountSummary">
-            <h3>Результаты за текущий месяц:</h3>
-            <p id="monthlyResult"></p>
+            <h3>Итоги за месяц:</h3>
+            <div>
+               <h5>Доход:</h5>
+               <p id="positiveExpenses"></p>
+            </div>
+            <div>
+               <h5>Расход:</h5>
+               <p id="negativeExpenses"></p>
+            </div>
          </div>
+         <div id="accountOperations"></div>
       </section>
 
       <template id="operationTemplate">
@@ -102,7 +110,6 @@
             <div class="operationDetails">
                <small class="operationTag"></small>
                <small class="operationComment"></small>
-               <small class="operationDate"></small>
             </div>
          </div>
       </template>
@@ -130,5 +137,15 @@
       <script src="../js/operations.js"></script> 
       <script src="../js/selector.js"></script>
       <script src="../js/style.js"></script>
+      <script>
+         document.addEventListener('DOMContentLoaded', () => {
+             const nav = document.querySelector('nav');
+             const addOperation = document.querySelector('.add-operation');
+             if (nav && addOperation) {
+                 const navHeight = nav.offsetHeight;
+                 addOperation.style.marginBottom = `${navHeight + 10}px`; // Add 10px spacing
+             }
+         });
+      </script>
    </body>
 </html>

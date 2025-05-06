@@ -23,14 +23,14 @@ function renderOperations() {
         dateHeader.textContent = dateKey;
         operationContainer.appendChild(dateHeader);
 
-        operations.forEach(({ bill, summ, comment, currentDate }) => {
+        operations.forEach(({ bill, summ, comment, type }) => {
             const account = getAccountById(bill) || {};
             const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
             const operationElement = template.content.cloneNode(true);
+            const formattedSumm = `${type === 'expense' ? '-' : '+'}${summ} ${currency}`;
             operationElement.querySelector('.accountName').textContent = name;
-            operationElement.querySelector('.operationAmount').textContent = `-${summ} ${currency}`;
+            operationElement.querySelector('.operationAmount').textContent = formattedSumm;
             operationElement.querySelector('.operationComment').textContent = comment || '';
-            operationElement.querySelector('.operationDate').textContent = `Дата: ${new Date(currentDate).toLocaleDateString()}`;
             operationContainer.appendChild(operationElement);
         });
     });
