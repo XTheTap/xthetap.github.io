@@ -46,7 +46,7 @@ function processAndRenderOperations(container, operations, template) {
           const account = getAccountById(bill) || {};
           const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
           const operationElement = template.content.cloneNode(true);
-          const formattedSumm = `${type === 'expense' ? '-' : '+'}${summ} ${currency}`;
+          const formattedSumm = `${type === 'expense' ? '-' : '+'}${summ.toFixed(2)} ${currency}`;
           operationElement.querySelector('.accountName').textContent = name;
           operationElement.querySelector('.operationAmount').textContent = formattedSumm;
           operationElement.querySelector('.operationComment').textContent = comment || '';

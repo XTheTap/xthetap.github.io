@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (getFromLocalStorage('accounts') || []).forEach(({ id, name, balance, currency }) => {
         const option = document.createElement('option');
         option.value = id;
-        option.textContent = `${name} (${balance} ${currency})`;
+        option.textContent = `${name} (${balance.toFixed(2)} ${currency})`; // Added toFixed(2)
         billSelect.appendChild(option);
     });
 });
