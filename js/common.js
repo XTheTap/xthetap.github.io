@@ -34,6 +34,9 @@ function processAndRenderOperations(container, operations, template) {
       return acc;
   }, {});
 
+  let totalPositive = 0;
+  let totalNegative = 0;
+
   Object.entries(grouped).forEach(([dateKey, operations]) => {
       const dateHeader = document.createElement('h3');
       dateHeader.textContent = dateKey;
@@ -48,6 +51,14 @@ function processAndRenderOperations(container, operations, template) {
           operationElement.querySelector('.operationAmount').textContent = formattedSumm;
           operationElement.querySelector('.operationComment').textContent = comment || '';
           container.appendChild(operationElement);
+
+          if (type === 'expense') {
+              totalNegative += summ;
+          } else {
+              totalPositive += summ;
+          }
       });
   });
+
+  return { totalPositive, totalNegative };
 }

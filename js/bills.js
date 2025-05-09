@@ -58,13 +58,10 @@ function renderAccountDetails(accountId) {
 
     const operations = getFromLocalStorage('operations').filter(op => op.bill === accountId);
 
-    let positiveExpenses = 0;
-    let negativeExpenses = 0;
+    const operationSums = processAndRenderOperations(accountOperationsContainer, operations, template);
 
-    processAndRenderOperations(accountOperationsContainer, operations, template);
-
-    document.getElementById('positiveExpenses').textContent = `${positiveExpenses} ${account.currency}`;
-    document.getElementById('negativeExpenses').textContent = `${negativeExpenses} ${account.currency}`;
+    document.getElementById('positiveExpenses').textContent = `${operationSums.totalPositive} ${account.currency}`;
+    document.getElementById('negativeExpenses').textContent = `${operationSums.totalNegative} ${account.currency}`;
     
     showSection('accountDetails');
 }
