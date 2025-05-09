@@ -10,30 +10,7 @@ function renderOperations() {
     const template = document.getElementById('operationTemplate');
     const operations = getOperations();
 
-    operations.sort((a, b) => new Date(b.currentDate) - new Date(a.currentDate));
-
-    const grouped = operations.reduce((acc, op) => {
-        const dateKey = getDateKey(new Date(op.currentDate));
-        (acc[dateKey] = acc[dateKey] || []).push(op);
-        return acc;
-    }, {});
-
-    Object.entries(grouped).forEach(([dateKey, operations]) => {
-        const dateHeader = document.createElement('h3');
-        dateHeader.textContent = dateKey;
-        operationContainer.appendChild(dateHeader);
-
-        operations.forEach(({ bill, summ, comment, type }) => {
-            const account = getAccountById(bill) || {};
-            const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
-            const operationElement = template.content.cloneNode(true);
-            const formattedSumm = `${type === 'expense' ? '-' : '+'}${summ} ${currency}`;
-            operationElement.querySelector('.accountName').textContent = name;
-            operationElement.querySelector('.operationAmount').textContent = formattedSumm;
-            operationElement.querySelector('.operationComment').textContent = comment || '';
-            operationContainer.appendChild(operationElement);
-        });
-    });
+    processAndRenderOperations(operationContainer, operations, template);
 }
 
 operationForm.addEventListener('submit', (e) => {

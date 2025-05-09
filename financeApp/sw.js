@@ -2,11 +2,9 @@ var CACHE_NAME = 'finance-offline-cache';
 var urlsToCache = [
   './sw.js',
   './index.html',
+  './manifest.json',
   '../css/default.css',
   '../css/financeApp.css',
-  '../financeApp/index.html',
-  '../financeApp/manifest.json',
-  '../financeApp/sw.js',
   '../js/bills.js',
   '../js/common.js',
   '../js/default.js',

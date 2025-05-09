@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderAccountDetails(accountId) {
     const accountDetailsSection = document.getElementById('accountDetails');
     const accountOperationsContainer = document.getElementById('accountOperations');
+    const template = document.getElementById('operationTemplate');
     const account = getAccounts().find(acc => acc.id === accountId);
 
     if (!account) return;
@@ -56,43 +57,11 @@ function renderAccountDetails(accountId) {
     accountOperationsContainer.innerHTML = '';
 
     const operations = getFromLocalStorage('operations').filter(op => op.bill === accountId);
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
 
     let positiveExpenses = 0;
     let negativeExpenses = 0;
 
-    const grouped = operations.reduce((acc, op) => {
-        const dateKey = getDateKey(new Date(op.currentDate));
-        (acc[dateKey] = acc[dateKey] || []).push(op);
-        return acc;
-    }, {});
-
-    Object.entries(grouped).forEach(([dateKey, operations]) => {
-        const dateHeader = document.createElement('h3');
-        dateHeader.textContent = dateKey; 
-        accountOperationsContainer.appendChild(dateHeader);
-
-        operations
-            .sort((a, b) => new Date(b.currentDate) - new Date(a.currentDate))
-            .forEach(({ summ, comment, currentDate }) => {
-                const operationDate = new Date(currentDate);
-                if (operationDate.getMonth() === currentMonth && operationDate.getFullYear() === currentYear) {
-                    if (summ > 0) {
-                        positiveExpenses += summ;
-                    } else {
-                        negativeExpenses += summ;
-                    }
-                }
-
-                const operationElement = document.createElement('div');
-                operationElement.innerHTML = `
-                    <p>Сумма: ${summ}</p>
-                    <p>Комментарий: ${comment || 'Нет комментария'}</p>
-                `;
-                accountOperationsContainer.appendChild(operationElement);
-            });
-    });
+    processAndRenderOperations(accountOperationsContainer, operations, template);
 
     document.getElementById('positiveExpenses').textContent = `${positiveExpenses} ${account.currency}`;
     document.getElementById('negativeExpenses').textContent = `${negativeExpenses} ${account.currency}`;
