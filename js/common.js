@@ -25,6 +25,20 @@ function showSection(id) {
     }
 }
 
+async function getTagNameById(tagId) {
+    try {
+        const response = await fetch('../json/tags.json');
+        if (!response.ok) throw new Error('Ошибка загрузки данных');
+        const tagsData = await response.json();
+        const allTags = [...tagsData.expense, ...tagsData.income];
+        const tag = allTags.find(t => t.id === tagId);
+        return tag ? tag.name : 'Тег не найден';
+    } catch (error) {
+        console.error(error);
+        return 'Ошибка загрузки тега';
+    }
+}
+
 function processAndRenderOperations(container, operations, template) {
   operations.sort((a, b) => new Date(b.currentDate) - new Date(a.currentDate));
 
@@ -42,7 +56,7 @@ function processAndRenderOperations(container, operations, template) {
       dateHeader.textContent = dateKey;
       container.appendChild(dateHeader);
 
-      operations.forEach(({ bill, summ, comment, type }) => {
+      operations.forEach(async ({ bill, summ, comment, type, tag }) => {
           const account = getAccountById(bill) || {};
           const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
           const operationElement = template.content.cloneNode(true);
@@ -50,6 +64,12 @@ function processAndRenderOperations(container, operations, template) {
           operationElement.querySelector('.accountName').textContent = name;
           operationElement.querySelector('.operationAmount').textContent = formattedSumm;
           operationElement.querySelector('.operationComment').textContent = comment || '';
+
+          if (tag) {
+              const tagName = await getTagNameById(tag);
+              operationElement.querySelector('.operationTag').textContent = tagName;
+          }
+
           container.appendChild(operationElement);
 
           if (type === 'expense') {

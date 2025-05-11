@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const addOperation = document.querySelector('.add-operation');
   if (nav && addOperation) {
       const navHeight = nav.offsetHeight;
-      addOperation.style.marginBottom = `${navHeight + 10}px`; // Add 10px spacing
+      addOperation.style.marginBottom = `${navHeight + 10}px`;
   }
 });
 
@@ -19,7 +19,7 @@ document.querySelectorAll('#operation-options button').forEach(btn => {
     const type = btn.dataset.type;
     const operationTypeSelect = document.getElementById('operationType');
     if (operationTypeSelect) {
-      operationTypeSelect.value = type === 'addOperation' ? 'expense' : type; // Default to 'expense'
+      operationTypeSelect.value = type === 'addOperation' ? 'expense' : type; 
     }
     showSection('addOperation'); 
     optionsDiv.classList.add('hidden');

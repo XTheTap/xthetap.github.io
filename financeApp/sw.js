@@ -16,6 +16,12 @@ var urlsToCache = [
   '../ico.webp'
 ];
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(reg => console.log('Service worker зарегистрирован', reg))
+    .catch(err => console.error('Ошибка регистрации service worker:', err));
+}
+
 self.addEventListener('install', function(event) {
     event.waitUntil(
       caches.open(CACHE_NAME)
@@ -33,8 +39,3 @@ self.addEventListener('fetch', function(event) {
           })
   );
 });
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js')
-    .then(reg => console.log('Service worker зарегистрирован', reg))
-    .catch(err => console.error('Ошибка регистрации service worker:', err));
-}
