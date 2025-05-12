@@ -95,6 +95,10 @@ select option {
     background-color: var(--bg);
     color: var(--txt);
 }
+.operationDetails { 
+    font-size: 0.75em; 
+    color: #aaa; 
+}
 .add-operation {
     position: fixed;
     bottom: 10px;

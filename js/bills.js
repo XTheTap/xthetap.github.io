@@ -12,7 +12,7 @@ function renderAccounts() {
         accountElement.querySelector('.accountName').textContent = name;
         accountElement.querySelector('.accountBalance').textContent = `${balance.toFixed(2)} ${currency}`; // Added toFixed(2)
         accountElement.querySelector('.account').addEventListener('click', () => {
-            renderAccountDetails(id); // Open account details on click
+            renderAccountDetails(id);
         });
         accountsContainer.appendChild(accountElement);
     });
@@ -31,7 +31,6 @@ accountForm.addEventListener('submit', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Populate currency dropdown
     fetch('../json/currencies.json')
         .then((res) => res.ok ? res.json() : Promise.reject('Ошибка загрузки данных'))
         .then((data) => {
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
 });
 
-function renderAccountDetails(accountId) {
+async function renderAccountDetails(accountId) {
     const accountDetailsSection = document.getElementById('accountDetails');
     const accountOperationsContainer = document.getElementById('accountOperations');
     const template = document.getElementById('operationTemplate');
@@ -63,7 +62,7 @@ function renderAccountDetails(accountId) {
 
     const operations = getFromLocalStorage('operations').filter(op => op.bill === accountId);
 
-    const operationSums = processAndRenderOperations(accountOperationsContainer, operations, template);
+    const operationSums = await processAndRenderOperations(accountOperationsContainer, operations, template);
 
     document.getElementById('positiveExpenses').textContent = `${operationSums.totalPositive.toFixed(2)} ${account.currency}`; // Added toFixed(2)
     document.getElementById('negativeExpenses').textContent = `${operationSums.totalNegative.toFixed(2)} ${account.currency}`; // Added toFixed(2)

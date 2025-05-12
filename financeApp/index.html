@@ -38,8 +38,21 @@
       </section>
 
       <section id="other">
-         <button type="submit">> Импортировать данные</button>
-         <button type="submit">> Экспортировать данные</button>
+         <button type="submit"> Импортировать данные</button>
+         <button type="submit"> Экспортировать данные</button>
+         <a onclick="showSection('globalSettings')">Настройки приложения</a> 
+      </section>
+
+      <section id="globalSettings">
+         <select id="globalCurrency">
+            <option value="" disabled selected>Выберите валюту</option>
+         </select>
+         <select id="globalCurrency">
+            <option value="" disabled selected>Выберите язык</option>
+         </select>
+         <select id="globalCurrency">
+            <option value="" disabled selected>Выберите тему</option>
+         </select>
       </section>
 
       <section id="addBill">
@@ -106,24 +119,29 @@
          <div id="accountOperations"></div>
       </section>
 
+      <section id="operationDetails" style="display: none;">
+         <h2>Детали операции</h2>
+         
+      </section>
+
       <template id="operationTemplate">
          <div class="operation">
             <div class="billField">
-               <tt class="accountName"></tt>
+               <h3 class="operationTag"></h3>
                <span class="operationAmount"></span>
             </div>
-            <div class="operationDetails">
-               <small class="operationTag"></small>
-               <small class="operationComment"></small>
-            </div>
+            <ul class="operationDetails">
+               <ul class="accountName"></ul>
+               <ul class="operationComment"></ul>
+            </ul>
          </div>
       </template>
 
       <template id="accountTemplate">
          <div class="account">
              <div class="billField">
-                 <span class="accountName"></span>
-                 <tt class="accountBalance"></tt>
+                 <h3 class="accountName"></h3>
+                 <small class="accountBalance"></small>
              </div>
          </div>
       </template>
