@@ -1,23 +1,19 @@
 {
   "expense": [
-    { "id": 1, "name": "На машину", "icon": "icons/car.png", "parent": null },
-    { "id": 2, "name": "Бензин", "icon": "icons/fuel.png", "parent": 1 },
-    { "id": 3, "name": "Ремонт", "icon": "icons/repair.png", "parent": 1 },
-    { "id": 4, "name": "На продукты", "icon": "icons/groceries.png", "parent": null },
-    { "id": 5, "name": "Овощи", "icon": "icons/vegetables.png", "parent": 4 },
-    { "id": 6, "name": "Фрукты", "icon": "icons/fruits.png", "parent": 4 },
-    { "id": 7, "name": "На одежду", "icon": "icons/clothing.png", "parent": null },
-    { "id": 8, "name": "Обувь", "icon": "icons/shoes.png", "parent": 7 },
-    { "id": 9, "name": "Аксессуары", "icon": "icons/accessories.png", "parent": 7 }
-    
+    { "id": 1, "name": "На машину", "icon": "icons/car.png", "parent": null, "obligation": false },
+    { "id": 2, "name": "Бензин", "icon": "icons/fuel.png", "parent": 1, "obligation": false },
+    { "id": 3, "name": "Ремонт авто", "icon": "icons/repair.png", "parent": 1, "obligation": false },
+    { "id": 4, "name": "На продукты", "icon": "icons/groceries.png", "parent": null, "obligation": true },
+    { "id": 7, "name": "На одежду", "icon": "icons/clothing.png", "parent": null, "obligation": true },
+    { "id": 8, "name": "Красота и здоровье", "icon": "icons/clothing.png", "parent": null, "obligation": false },
+    { "id": 9, "name": "Медицинские услуги", "icon": "icons/clothing.png", "parent": 8, "obligation": true },
+    { "id": 10, "name": "Вкусности", "icon": "icons/clothing.png", "parent": null, "obligation": false },
+    { "id": 15, "name": "Проезд", "icon": "icons/clothing.png", "parent": null, "obligation": true }
   ],
   "income": [
-    { "id": 10, "name": "Зарплата", "icon": "icons/salary.png", "parent": null },
-    { "id": 11, "name": "Подарки", "icon": "icons/gifts.png", "parent": null },
-    { "id": 12, "name": "Деньги", "icon": "icons/money-gift.png", "parent": 11 },
-    { "id": 13, "name": "Сертификаты", "icon": "icons/certificates.png", "parent": 11 },
-    { "id": 14, "name": "Инвестиции", "icon": "icons/investments.png", "parent": null },
-    { "id": 15, "name": "Акции", "icon": "icons/stocks.png", "parent": 14 },
-    { "id": 16, "name": "Облигации", "icon": "icons/bonds.png", "parent": 14 }
+    { "id": 11, "name": "Зарплата", "icon": "icons/salary.png", "parent": null },
+    { "id": 12, "name": "Подарки", "icon": "icons/gifts.png", "parent": null },
+    { "id": 13, "name": "Инвестиции", "icon": "icons/investments.png", "parent": null },
+    { "id": 14, "name": "Возврат долга", "icon": "icons/investments.png", "parent": null }
   ]
 }

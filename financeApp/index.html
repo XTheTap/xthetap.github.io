@@ -33,24 +33,29 @@
           </div>
       </section>
 
-      <section id="analithic">
-         Вы молодец!    
+      <section id="analithic"> 
+         <div class="treemap" id="treemap"></div> 
+
+         <h2>От 100%*:</h2>
+         <h3>На основании статистики:</h3>
       </section>
 
       <section id="other">
-         <button type="submit"> Импортировать данные</button>
-         <button type="submit"> Экспортировать данные</button>
-         <a onclick="showSection('globalSettings')">Настройки приложения</a> 
+         <ul>
+            <li><button type="submit"> Импортировать данные</button></li>
+            <li><button type="submit"> Экспортировать данные</button></li>
+            <li><a onclick="showSection('globalSettings')">Настройки приложения</a></li>
+         </ul>
       </section>
 
       <section id="globalSettings">
          <select id="globalCurrency">
             <option value="" disabled selected>Выберите валюту</option>
          </select>
-         <select id="globalCurrency">
+         <select id="globalLanguage">
             <option value="" disabled selected>Выберите язык</option>
          </select>
-         <select id="globalCurrency">
+         <select id="globalTheme">
             <option value="" disabled selected>Выберите тему</option>
          </select>
       </section>
@@ -119,9 +124,15 @@
          <div id="accountOperations"></div>
       </section>
 
-      <section id="operationDetails" style="display: none;">
+      <section id="operationDescription" style="display: none;">
          <h2>Детали операции</h2>
-         
+            <ul>
+               <h3 class="operationTag"></h3>
+               <span class="operationAmount"></span>
+               <ul class="accountName"></ul>
+               <ul class="operationComment"></ul>
+            </ul>
+         </div>
       </section>
 
       <template id="operationTemplate">
@@ -150,15 +161,20 @@
          <ul>
             <li><a onclick="showSection('bills')">Счета</a></li>
             <li><a onclick="showSection('operations')">Операции</a></li>
-            <li><a onclick="showSection('analithic')">Аналитика</a></li>
+            <li><a onclick="showSection('analithic'); requestAnimationFrame(() => {                                  
+                  const treemapContainer = document.getElementById('treemap');
+                  createTreemap(treemapContainer, analyticData, 0, 0, treemapContainer.clientWidth, treemapContainer.clientHeight);});">
+                                                   Аналитика</a></li>
             <li><a onclick="showSection('other')">Ещё</a></li>
          </ul>
       </nav>
    
       <script src="../js/common.js"></script> 
+      <script src="../js/tags.js"></script> 
       <script src="../js/bills.js"></script> 
       <script src="../js/operations.js"></script> 
       <script src="../js/selector.js"></script>
+      <script type="module" src="../js/analithic.js"></script> 
       <script src="../js/style.js"></script>
    </body>
 </html>

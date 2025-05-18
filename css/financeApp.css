@@ -99,6 +99,14 @@ select option {
     font-size: 0.75em; 
     color: #aaa; 
 }
+.operation, .account {
+  border-block: 1px solid  #555; /* вместо top + bottom */
+  padding-block: 6px; /* вместо padding: 6px 0 */
+}
+.operation:hover, .account:hover {
+  border-color: #aaa;
+  cursor: pointer;
+}
 .add-operation {
     position: fixed;
     bottom: 10px;
@@ -144,4 +152,24 @@ select option {
     body {
         font-size: 2.6em;
     }
+}
+.treemap {
+    position: relative;
+    width: 100vw;
+    height: 70vh;
+}
+.node {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid white;
+    overflow: hidden;
+    background-color: hsl(200, 60%, 70%);
+    padding: 2px;
+    font-size: 12px;
+    color: #000;
+}
+.node .label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
