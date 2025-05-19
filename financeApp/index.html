@@ -15,7 +15,7 @@
          <div id="accounts">
          </div>
 
-         <a onclick="showSection('addBill')">+ Добавить карту, вклад, кредит...</a> 
+         <a onclick="showAddBill()">+ Добавить карту, вклад, кредит...</a> 
       </section>
 
 
@@ -61,6 +61,22 @@
       </section>
 
       <section id="addBill">
+         <h2 data-visible="description">Детали счёта</h2>
+         <button id="accountEdit" data-visible="description" onclick="setVisibilityMode('edit', 'addBill')">Редактировать</button>
+         <button id="accountCancel" data-visible="edit" onclick="setVisibilityMode('description', 'addBill')">Отмена</button>
+         <button id="accountSave" data-visible="edit">Сохранить изминения</button>
+         <div id="accountSummary" data-visible="description">
+            <h3>Итоги за месяц:</h3>
+            <div>
+               <h5>Доход:</h5>
+               <p id="positiveExpenses"></p>
+            </div>
+            <div>
+               <h5>Расход:</h5>
+               <p id="negativeExpenses"></p>
+            </div>
+         </div>
+         <div id="accountOperations" data-visible="description"></div>
          <form id="accountForm">
             <ul>
                <li><input type="text" id="accountName" placeholder="Название счёта"  required></li>
@@ -72,14 +88,16 @@
                <li><input type="number" step="any" id="balance" placeholder="Баланс" required></li>
                <li><input type="number" step="any" id="debitBalance" placeholder="Доступный кредит"></li>
             </ul>
-            <button type="submit">> Добавить</button>
+            <button type="submit" data-visible="adding">Добавить</button>
          </form>
+         <button id="accountDelete" data-visible="description">Удалить</button>
       </section>
 
       <section id="addOperation">
-         <button id="operationEdit" style="display: none;">Редактировать</button>
-         <button id="operationCancel" style="display: none;">Отмена</button>
-         <button id="operationSave" style="display: none;">Сохранить изминения</button>
+         <h2 data-visible="description">Детали операции</h2>
+         <button id="operationEdit" data-visible="description" onclick="setVisibilityMode('edit', 'addOperation')">Редактировать</button>
+         <button id="operationCancel" data-visible="edit" onclick="setVisibilityMode('description', 'addOperation')">Отмена</button>
+         <button id="operationSave" data-visible="edit">Сохранить изминения</button>
          <form id="operationForm">
             <ul>
                <li><h1><input type="number" step="any" id="summ" placeholder="Сумма" required></h1></li>
@@ -109,29 +127,9 @@
                </li>
                <li><input type="text" id="comment" placeholder="Комментарий"></li>
             </ul>
-            <button type="submit">> Добавить</button>
+            <button type="submit" data-visible="adding">Добавить</button>
          </form>
-         <button id="operationDelete" style="display: none;">Удалить</button>
-      </section>
-
-      <section id="accountDetails" style="display: none;">
-         <h2>Детали счёта</h2>
-         <button id="accountEdit">Редактировать</button>
-         <button id="accountCancel" style="display: none;">Отмена</button>
-         <button id="accountSave" style="display: none;">Сохранить изминения</button>
-         <div id="accountSummary">
-            <h3>Итоги за месяц:</h3>
-            <div>
-               <h5>Доход:</h5>
-               <p id="positiveExpenses"></p>
-            </div>
-            <div>
-               <h5>Расход:</h5>
-               <p id="negativeExpenses"></p>
-            </div>
-         </div>
-         <div id="accountOperations"></div>
-         <button id="accountDelete">Удалить</button>
+         <button id="operationDelete" data-visible="description">Удалить</button>
       </section>
 
       <template id="operationTemplate">

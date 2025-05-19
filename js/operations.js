@@ -88,8 +88,15 @@ document.querySelectorAll('#operation-options button').forEach(btn => {
       operationTypeSelect.value = type === 'addOperation' ? 'expense' : type;
       handleOperationTypeChange(operationTypeSelect.value);
     }
-    showSection('addOperation');
+
     optionsDiv.classList.add('hidden');
+    
+    operationForm.reset();
+    Array.from(operationForm.querySelectorAll('input, select')).forEach(el => el.disabled = false);
+
+    setVisibilityMode('adding', 'addOperation');
+
+    showSection('addOperation');
   });
 });
 
@@ -100,7 +107,6 @@ function handleOperationTypeChange(type) {
     const summTransferField = document.getElementById('summTransfer').parentElement;
 
     switch (type) {
-        default:
         case 'expense':
         case 'income':
             tagField.style.display = '';

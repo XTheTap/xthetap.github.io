@@ -13,15 +13,3 @@ document.addEventListener('DOMContentLoaded', () => {
       addOperation.style.marginBottom = `${navHeight + 10}px`;
   }
 });
-
-document.querySelectorAll('#operation-options button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const type = btn.dataset.type;
-    const operationTypeSelect = document.getElementById('operationType');
-    if (operationTypeSelect) {
-      operationTypeSelect.value = type === 'addOperation' ? 'expense' : type; 
-    }
-    showSection('addOperation'); 
-    optionsDiv.classList.add('hidden');
-  });
-});

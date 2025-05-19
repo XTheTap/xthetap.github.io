@@ -13,6 +13,12 @@ const getDateKey = (date) => {
            `${date.toLocaleDateString()}, ${date.toLocaleDateString('ru-RU', { weekday: 'long' })}`;
 };
 
+function setVisibilityMode(mode, form) {
+  document.getElementById(form).querySelectorAll('[data-visible]').forEach(el => {
+    el.style.display = el.dataset.visible === mode ? '' : 'none';
+  });
+}
+
 function showSection(id) {
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
@@ -84,6 +90,18 @@ function renderOperationDetails(operationId) {
     if (operationSection) {
         operationSection.dataset.operationId = operationId;
     }
+    
+    setVisibilityMode('description', 'addOperation');
+
+    document.getElementById('summ').value = operation.summ || '';
+    document.getElementById('operationType').value = operation.type || '';
+    document.getElementById('bill').value = operation.bill || '';
+    if (document.getElementById('billTransfer')) document.getElementById('billTransfer').value = operation.billTransfer || '';
+    if (document.getElementById('summTransfer')) document.getElementById('summTransfer').value = operation.summTransfer || '';
+    document.getElementById('tag').value = operation.tag || '';
+    document.getElementById('comment').value = operation.comment || '';
+
+    Array.from(operationSection.querySelectorAll('input, select')).forEach(el => el.disabled = true);
 
     showSection('addOperation');
 }

@@ -1,5 +1,6 @@
 const accountsContainer = document.getElementById('accounts');
 const accountForm = document.getElementById('accountForm');
+const addBillForm = document.getElementById('addBill');
 
 const getAccounts = () => getFromLocalStorage('accounts');
 const saveAccounts = (accounts) => saveToLocalStorage('accounts', accounts);
@@ -48,14 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function renderAccountDetails(accountId) {
-    const accountDetailsSection = document.getElementById('accountDetails');
     const accountOperationsContainer = document.getElementById('accountOperations');
     const template = document.getElementById('operationTemplate');
     const account = getAccounts().find(acc => acc.id === accountId);
 
     if (!account) return;
 
-    accountDetailsSection.style.display = 'block';
     accountOperationsContainer.innerHTML = '';
 
     const operations = getFromLocalStorage('operations').filter(op => op.bill === accountId);
@@ -65,7 +64,11 @@ async function renderAccountDetails(accountId) {
     document.getElementById('positiveExpenses').textContent = `${operationSums.totalPositive.toFixed(2)} ${account.currency}`;
     document.getElementById('negativeExpenses').textContent = `${operationSums.totalNegative.toFixed(2)} ${account.currency}`;
     
-    showSection('accountDetails');
+    setVisibilityMode('description', 'addBill');
+    
+    Array.from(addBillForm.querySelectorAll('input, select')).forEach(el => el.disabled = true);
+
+    showSection('addBill');
 }
 
 function calculateTotalBalance(mainCurrency) {
@@ -76,6 +79,14 @@ function calculateTotalBalance(mainCurrency) {
         const rate = exchangeRates[currency] || 1; 
         return total + (balance * rate);
     }, 0).toFixed(2); 
+}
+
+function showAddBill() {
+    setVisibilityMode('adding', 'addBill'); 
+    
+    Array.from(addBillForm.querySelectorAll('input, select')).forEach(el => el.disabled = false);
+
+    showSection('addBill');
 }
 
 renderAccounts();

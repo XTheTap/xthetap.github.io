@@ -25,8 +25,7 @@ async function getPaerntTagNameById(tagId) {
 }
 
 function getTagsFromJson(key) {
-    return fetch('../json/tags.json')
-        .then((res) => res.ok ? res.json() : Promise.reject('Ошибка загрузки данных'))
-        .then((data) => data[key] || [])
-        .catch(console.error);
+    return loadTagsData()
+        .then((data) => (data && data[key]) ? data[key] : [])
+        .catch(() => []);
 }
