@@ -10,7 +10,10 @@ function renderAccounts() {
     getAccounts().forEach(({ id, name, balance, currency }) => {
         const accountElement = template.content.cloneNode(true);
         accountElement.querySelector('.accountName').textContent = name;
-        accountElement.querySelector('.accountBalance').textContent = `${balance.toFixed(2)} ${currency}`; // Added toFixed(2)
+        if (balance != null)
+        {
+            accountElement.querySelector('.accountBalance').textContent = `${balance.toFixed(2)} ${currency}`;
+        }
         accountElement.querySelector('.account').addEventListener('click', () => {
             renderAccountDetails(id);
         });
@@ -42,11 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         })
         .catch(console.error);
-
-    // const mainCurrency = prompt('Выберите основную валюту (например, USD, EUR):');
-    // if (mainCurrency) {
-    //     localStorage.setItem('mainCurrency', mainCurrency);
-    // }
 });
 
 async function renderAccountDetails(accountId) {
@@ -64,20 +62,20 @@ async function renderAccountDetails(accountId) {
 
     const operationSums = await processAndRenderOperations(accountOperationsContainer, operations, template);
 
-    document.getElementById('positiveExpenses').textContent = `${operationSums.totalPositive.toFixed(2)} ${account.currency}`; // Added toFixed(2)
-    document.getElementById('negativeExpenses').textContent = `${operationSums.totalNegative.toFixed(2)} ${account.currency}`; // Added toFixed(2)
+    document.getElementById('positiveExpenses').textContent = `${operationSums.totalPositive.toFixed(2)} ${account.currency}`;
+    document.getElementById('negativeExpenses').textContent = `${operationSums.totalNegative.toFixed(2)} ${account.currency}`;
     
     showSection('accountDetails');
 }
 
 function calculateTotalBalance(mainCurrency) {
     const accounts = getAccounts();
-    const exchangeRates = getFromLocalStorage('exchangeRates'); // Assume exchange rates are stored in localStorage
+    const exchangeRates = getFromLocalStorage('exchangeRates'); 
 
     return accounts.reduce((total, { balance, currency }) => {
-        const rate = exchangeRates[currency] || 1; // Default to 1 if no rate is found
+        const rate = exchangeRates[currency] || 1; 
         return total + (balance * rate);
-    }, 0).toFixed(2); // Added toFixed(2)
+    }, 0).toFixed(2); 
 }
 
 renderAccounts();

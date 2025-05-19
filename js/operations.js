@@ -37,14 +37,20 @@ operationForm.addEventListener('submit', (e) => {
     const accounts = getFromLocalStorage('accounts');
     const account = accounts.find(acc => acc.id === bill);
 
-    if (operationType === 'expense') {
-        account.balance -= amount;
-    } else if (operationType === 'income') {
-        account.balance += amount;
-    } else if (operationType === 'transfer') {
-        const accounTransfer = accounts.find(acc => acc.id === billTransfer);
-        accounTransfer.balance += amount;
-        account.balance -= amount;
+    switch (operationType) {
+        case 'expense':
+            account.balance -= amount;
+        break;
+        case 'income':
+            account.balance += amount;
+        break;
+        case 'transfer':
+            const { value: summTransfer } = document.getElementById('summTransfer');
+
+            const accounTransfer = accounts.find(acc => acc.id === billTransfer);
+            account.balance -= amount;
+            accounTransfer.balance += parseFloat(summTransfer);
+        break;
     }
 
     saveAccounts(accounts);
@@ -87,23 +93,19 @@ document.querySelectorAll('#operation-options button').forEach(btn => {
   });
 });
 
-function getTagsFromJson(key) {
-    return fetch('../json/tags.json')
-        .then((res) => res.ok ? res.json() : Promise.reject('Ошибка загрузки данных'))
-        .then((data) => data[key] || [])
-        .catch(console.error);
-}
-
 function handleOperationTypeChange(type) {
     const tagSelect = document.getElementById('tag');
     const tagField = tagSelect.parentElement;
     const transferBillField = document.getElementById('billTransfer').parentElement;
+    const summTransferField = document.getElementById('summTransfer').parentElement;
 
     switch (type) {
+        default:
         case 'expense':
         case 'income':
             tagField.style.display = '';
             transferBillField.style.display = 'none';
+            summTransferField.style.display = 'none';
             getTagsFromJson(type).then((tags) => {
                 tagSelect.innerHTML = '';
                 tags.forEach((tag) => {
@@ -117,6 +119,7 @@ function handleOperationTypeChange(type) {
         case 'transfer':
             tagField.style.display = 'none';
             transferBillField.style.display = '';
+            summTransferField.style.display = '';
             break;
     }
 }

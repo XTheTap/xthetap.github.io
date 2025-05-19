@@ -167,9 +167,15 @@ select option {
     padding: 2px;
     font-size: 12px;
     color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .node .label {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
 }

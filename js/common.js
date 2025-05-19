@@ -42,7 +42,7 @@ async function processAndRenderOperations(container, operations, template) {
         dateHeader.textContent = dateKey;
         container.appendChild(dateHeader);
 
-        for (const { bill, summ, comment, type, tag } of ops) {
+        for (const { id, bill, summ, comment, type, tag } of ops) {
             const account = getAccountById(bill) || {};
             const { name = 'Счёт не найден или удалён', currency = 'NoN' } = account;
             const operationElement = template.content.cloneNode(true);
@@ -58,6 +58,10 @@ async function processAndRenderOperations(container, operations, template) {
         
             operationElement.querySelector('.operationTag').textContent = tagName;
             
+            operationElement.querySelector('.operation').addEventListener('click', () => {
+                renderOperationDetails(id);
+            });
+
             container.appendChild(operationElement);
 
             if (type === 'expense') {
@@ -69,4 +73,17 @@ async function processAndRenderOperations(container, operations, template) {
     }
 
     return { totalPositive, totalNegative };
+}
+
+function renderOperationDetails(operationId) {
+    var operation = getOperations().find(op => op.id === operationId);
+
+    if (!operation) return;
+    
+    const operationSection = document.getElementById('addOperation');
+    if (operationSection) {
+        operationSection.dataset.operationId = operationId;
+    }
+
+    showSection('addOperation');
 }

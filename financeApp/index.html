@@ -70,15 +70,20 @@
                   </select>
                </li>
                <li><input type="number" step="any" id="balance" placeholder="Баланс" required></li>
+               <li><input type="number" step="any" id="debitBalance" placeholder="Доступный кредит"></li>
             </ul>
             <button type="submit">> Добавить</button>
          </form>
       </section>
 
       <section id="addOperation">
+         <button id="operationEdit" style="display: none;">Редактировать</button>
+         <button id="operationCancel" style="display: none;">Отмена</button>
+         <button id="operationSave" style="display: none;">Сохранить изминения</button>
          <form id="operationForm">
             <ul>
                <li><h1><input type="number" step="any" id="summ" placeholder="Сумма" required></h1></li>
+               <li><h1><input type="number" step="any" id="summTransfer" placeholder="Сумма"></h1></li>
                <li>
                   <select id="operationType" required>
                      <option value="" disabled selected>Выберите тип операции</option>
@@ -106,10 +111,14 @@
             </ul>
             <button type="submit">> Добавить</button>
          </form>
+         <button id="operationDelete" style="display: none;">Удалить</button>
       </section>
 
       <section id="accountDetails" style="display: none;">
          <h2>Детали счёта</h2>
+         <button id="accountEdit">Редактировать</button>
+         <button id="accountCancel" style="display: none;">Отмена</button>
+         <button id="accountSave" style="display: none;">Сохранить изминения</button>
          <div id="accountSummary">
             <h3>Итоги за месяц:</h3>
             <div>
@@ -122,17 +131,7 @@
             </div>
          </div>
          <div id="accountOperations"></div>
-      </section>
-
-      <section id="operationDescription" style="display: none;">
-         <h2>Детали операции</h2>
-            <ul>
-               <h3 class="operationTag"></h3>
-               <span class="operationAmount"></span>
-               <ul class="accountName"></ul>
-               <ul class="operationComment"></ul>
-            </ul>
-         </div>
+         <button id="accountDelete">Удалить</button>
       </section>
 
       <template id="operationTemplate">
