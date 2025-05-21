@@ -30,3 +30,25 @@ function showSection(id) {
       active.classList.add('active');
     }
 }
+
+// Глобальные переменные для select'ов счетов (используются в операциях)
+window.billSelect = document.getElementById('bill');
+window.billTransferSelect = document.getElementById('billTransfer');
+
+// Функция для обновления select'ов счетов
+window.updateAccountSelects = function() {
+    if (!window.billSelect || !window.billTransferSelect) return;
+    billSelect.innerHTML = '<option value="" disabled selected>Выберите счёт</option>';
+    billTransferSelect.innerHTML = '<option value="" disabled selected>Выберите счёт</option>';
+    (getFromLocalStorage('accounts') || []).forEach(({ id, name, balance, currency }) => {
+        const option1 = document.createElement('option');
+        option1.value = id;
+        option1.textContent = `${name} (${balance.toFixed(2)} ${currency})`;
+        billSelect.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = id;
+        option2.textContent = `${name} (${balance.toFixed(2)} ${currency})`;
+        billTransferSelect.appendChild(option2);
+    });
+};

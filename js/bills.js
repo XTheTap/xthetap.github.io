@@ -39,6 +39,7 @@ accountForm.onsubmit = e => {
     if (debitBalance.value !== '') newAccount.debitBalance = parseFloat(debitBalance.value);
     saveAccounts([...getAccounts(), newAccount]);
     renderAccounts();
+    updateAccountSelects(); // обновить select'ы счетов
     showSection('bills');
     accountForm.reset();
 };
@@ -104,6 +105,7 @@ document.getElementById('accountSave').onclick = e => {
     let accounts = getAccounts().map(acc => acc.id === currentAccount.id ? currentAccount : acc);
     saveAccounts(accounts);
     renderAccounts();
+    updateAccountSelects(); // обновить select'ы счетов
     showSection('bills');
     currentAccount = null;
 };
@@ -113,6 +115,7 @@ document.getElementById('accountDelete').onclick = function() {
     let accounts = getAccounts().filter(acc => acc.id !== currentAccount.id);
     saveAccounts(accounts);
     renderAccounts();
+    updateAccountSelects(); // обновить select'ы счетов
     showSection('bills');
     currentAccount = null;
 };

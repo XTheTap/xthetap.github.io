@@ -75,24 +75,13 @@ operationForm.addEventListener('submit', (e) => {
     saveOperations([...getOperations(), newOperation]);
     renderOperations();
     renderAccounts(); 
+    updateAccountSelects();
     showSection('operations');
     operationForm.reset();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const billSelect = document.getElementById('bill');
-    const billTransferSelect = document.getElementById('billTransfer');
-    (getFromLocalStorage('accounts') || []).forEach(({ id, name, balance, currency }) => {
-        const option1 = document.createElement('option');
-        option1.value = id;
-        option1.textContent = `${name} (${balance.toFixed(2)} ${currency})`;
-        billSelect.appendChild(option1);
-
-        const option2 = document.createElement('option');
-        option2.value = id;
-        option2.textContent = `${name} (${balance.toFixed(2)} ${currency})`;
-        billTransferSelect.appendChild(option2);
-    });
+    updateAccountSelects();
 });
 
 operationTypeSelect.addEventListener('change', () => {
@@ -210,6 +199,7 @@ function renderOperationDetails(operationId) {
         operationSection.dataset.operationId = operationId;
     }
     setVisibilityMode('description', 'addOperation');
+    handleOperationTypeChange(operation.type);
 
     operationFields.summ.value = operation.summ || '';
     operationFields.operationType.value = operation.type || '';
@@ -229,7 +219,6 @@ document.getElementById('operationDelete').addEventListener('click', function() 
     let operations = getOperations();
     let accounts = getFromLocalStorage('accounts');
 
-    // Откатываем баланс
     revertOperationBalance(currentOperation, accounts);
 
     operations = operations.filter(op => op.id !== currentOperation.id);
@@ -237,6 +226,7 @@ document.getElementById('operationDelete').addEventListener('click', function() 
     saveAccounts(accounts);
 
     renderOperations();
+    updateAccountSelects();
     showSection('operations');
     currentOperation = null;
 });
@@ -273,6 +263,7 @@ document.getElementById('operationSave').addEventListener('click', function(e) {
     saveAccounts(accounts);
 
     renderOperations();
+    updateAccountSelects();
     showSection('operations');
     currentOperation = null;
 });
