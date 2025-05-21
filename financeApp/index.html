@@ -62,8 +62,10 @@
 
       <section id="addBill">
          <h2 data-visible="description">Детали счёта</h2>
-         <button id="accountEdit" data-visible="description" onclick="setVisibilityMode('edit', 'addBill')">Редактировать</button>
-         <button id="accountCancel" data-visible="edit" onclick="setVisibilityMode('description', 'addBill')">Отмена</button>
+         <button id="accountEdit" data-visible="description" onclick="
+    Array.from(addBillForm.querySelectorAll('input, select')).forEach(el => el.disabled = false); setVisibilityMode('edit', 'addBill')">Редактировать</button>
+         <button id="accountCancel" data-visible="edit" onclick="
+    Array.from(addBillForm.querySelectorAll('input, select')).forEach(el => el.disabled = true); setVisibilityMode('description', 'addBill')">Отмена</button>
          <button id="accountSave" data-visible="edit">Сохранить изминения</button>
          <div id="accountSummary" data-visible="description">
             <h3>Итоги за месяц:</h3>
@@ -76,7 +78,6 @@
                <p id="negativeExpenses"></p>
             </div>
          </div>
-         <div id="accountOperations" data-visible="description"></div>
          <form id="accountForm">
             <ul>
                <li><input type="text" id="accountName" placeholder="Название счёта"  required></li>
@@ -91,12 +92,15 @@
             <button type="submit" data-visible="adding">Добавить</button>
          </form>
          <button id="accountDelete" data-visible="description">Удалить</button>
+         <div id="accountOperations" data-visible="description"></div>
       </section>
 
       <section id="addOperation">
          <h2 data-visible="description">Детали операции</h2>
-         <button id="operationEdit" data-visible="description" onclick="setVisibilityMode('edit', 'addOperation')">Редактировать</button>
-         <button id="operationCancel" data-visible="edit" onclick="setVisibilityMode('description', 'addOperation')">Отмена</button>
+         <button id="operationEdit" data-visible="description" onclick="
+    Array.from(operationForm.querySelectorAll('input, select')).forEach(el => el.disabled = false); setVisibilityMode('edit', 'addOperation')">Редактировать</button>
+         <button id="operationCancel" data-visible="edit" onclick="
+    Array.from(operationForm.querySelectorAll('input, select')).forEach(el => el.disabled = true); setVisibilityMode('description', 'addOperation')">Отмена</button>
          <button id="operationSave" data-visible="edit">Сохранить изминения</button>
          <form id="operationForm">
             <ul>
