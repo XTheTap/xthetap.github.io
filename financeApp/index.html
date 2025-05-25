@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html lang="en">
    <head>
       <meta charset="utf-8">
       <title>Your balance</title>
@@ -15,7 +15,7 @@
          <div id="accounts">
          </div>
 
-         <a onclick="showAddBill()">+ Добавить карту, вклад, кредит...</a> 
+         <a onclick="showAddBill()" data-i18n="add_card"></a> 
       </section>
 
 
@@ -26,9 +26,9 @@
          <div id="operation-toggle" class="add-operation">
             <button id="main-add-btn">➕</button>
             <ul id="operation-options" class="hidden">
-               <li><button data-type="income">Доход</button></li>
-               <li><button data-type="expense">Расход</button></li>
-               <li><button data-type="transfer">Перевод</button></li>
+               <li><button data-type="income" data-i18n="income"></button></li>
+               <li><button data-type="expense" data-i18n="expense"></button></li>
+               <li><button data-type="transfer" data-i18n="transfer"></button></li>
             </ul>
           </div>
       </section>
@@ -36,24 +36,26 @@
       <section id="analithic"> 
          <div class="treemap" id="treemap"></div> 
 
-         <h2>От 100%*:</h2>
-         <h3>На основании статистики:</h3>
+         <h2 data-i18n="from_100"></h2>
+         <h3 data-i18n="based_on_stats"></h3>
       </section>
 
       <section id="other">
          <ul>
-            <li><button type="submit"> Импортировать данные</button></li>
-            <li><button type="submit"> Экспортировать данные</button></li>
-            <li><a onclick="showSection('globalSettings')">Настройки приложения</a></li>
+            <li><button type="submit" data-i18n="import_data"></button></li>
+            <li><button type="submit" data-i18n="export_data"></button></li>
+            <li><a onclick="showSection('globalSettings')" data-i18n="app_settings"></a></li>
          </ul>
       </section>
 
       <section id="globalSettings">
          <select id="globalCurrency">
-            <option value="" disabled selected>Выберите валюту</option>
+            <option value="" disabled selected>Выберите валюту</option>    
          </select>
          <select id="globalLanguage">
-            <option value="" disabled selected>Выберите язык</option>
+            <option value="en" disabled selected>Выберите язык</option> 
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
          </select>
          <select id="globalTheme">
             <option value="" disabled selected>Выберите тему</option>
@@ -177,5 +179,6 @@
       <script src="../js/selector.js"></script>
       <script type="module" src="../js/analithic.js"></script> 
       <script src="../js/style.js"></script>
+      <script src="../js/lang.js"></script>
    </body>
 </html>
