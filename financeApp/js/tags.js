@@ -2,7 +2,7 @@ let cachedTagsData = null;
 
 async function loadTagsData() {
     if (cachedTagsData) return cachedTagsData;
-    const response = await fetch('../json/tags.json');
+    const response = await fetch('json/tags.json');
     if (!response.ok) return null;
     cachedTagsData = await response.json();
     return cachedTagsData;

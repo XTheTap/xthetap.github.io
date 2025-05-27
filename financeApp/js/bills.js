@@ -45,7 +45,7 @@ accountForm.onsubmit = e => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('../json/currencies.json')
+    fetch('json/currencies.json')
         .then(res => res.ok ? res.json() : Promise.reject('Ошибка загрузки данных'))
         .then(data => {
             const tagSelect = accountFields.currency;

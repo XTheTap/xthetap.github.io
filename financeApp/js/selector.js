@@ -1,6 +1,6 @@
 // function loadScript() {
 //     const script = document.createElement('script');
-//     script.src = '../js/bills.js';
+//     script.src = 'js/bills.js';
 //     document.body.appendChild(script);
 // }
 
