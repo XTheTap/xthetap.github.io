@@ -43,7 +43,7 @@ async function generateDataFromOperations(operations) {
 }
 
 async function initAnalyticData() {
-  const operations = await getOperations();
+  const operations = (await getOperations()).filter(op => op.type === 'expense');
   const data = await generateDataFromOperations(operations);
   return data;
 }

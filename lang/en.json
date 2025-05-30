@@ -1,0 +1,41 @@
+{
+  "main_title": "Hi, I'm Ilya Zhukovsky",
+  "main_subtitle": "I'm a developer who not only writes code, but solves real business problems. I'm used to working with limited access and resources, while maintaining high speed and quality. I don't require perfect conditions — I achieve results where others look for excuses.",
+  "help_subtitle": "My goal is to be valuable for the team and the business. I understand the importance of clean and maintainable code: that's why I actively participate in code reviews and always provide constructive feedback, helping to improve the product without tension in the team.",
+  "github": "Github",
+  "linkedin": "Linkedin",
+  "mail": "📧 Email: illia9842@gmail.com",
+  "phone": "📞 Phone: +375(33)6501247",
+  "telegram": "💬 Telegram: @illysha404",
+  "about_title": "How I Can Help",
+  "about_first": "I will help speed up development and take the product to a new level of quality.",
+  "about_second": "I support existing solutions and suggest optimizations.",
+  "about_third": "I effectively integrate into the team and company processes.",
+  "about_fourth": "I resolve complex situations with technical debt or lack of resources.",
+  "download_resume": "> Download resume",
+  "open_finance_app": "> Open finance tracking app",
+  "work_exp_title": "Work Experience",
+  "work_lead_title": "Lead .NET Developer — Alfa-Bank",
+  "work_lead_period": "2022 — present",
+  "work_lead_points": [
+    "Developed and maintained complex backend systems on ASP.NET and .NET Framework",
+    "Optimized existing code, reducing technical debt and improving readability",
+    "Integrated RabbitMQ, Elasticsearch, GitLab CI/CD and other DevOps tools",
+    "Actively participated in code reviews, implemented best practices in architecture",
+    "Participated in architectural decisions, worked with high-load services"
+  ],
+  "work_lead_stack": "Stack: ASP.NET, ADO.NET, Entity Framework, RabbitMQ, PostgreSQL, Elasticsearch",
+  "work_prev_title": ".NET Developer — Texode technologies",
+  "work_prev_period": "2021 — 2022",
+  "work_prev_points": [
+    "Developed WPF applications for internal company needs",
+    "Migrated legacy code from .NET Framework to newer versions",
+    "Developed REST API, participated in database design"
+  ],
+  "work_prev_stack": "Stack: .NET Framework, WPF, REST, MSSQL, Git",
+  "tech_title": "Technologies",
+  "tech_backend": "Backend: ASP.NET, .NET Framework, ADO.NET, Entity Framework, ServiceStack, WCF, REST, MVC, ASP.NET MVC",
+  "tech_frontend": "Frontend / Stack: HTML stack, WPF, react + redux, angular",
+  "tech_infra": "Infrastructure: RabbitMQ, TeamCity, Elasticsearch, Gitlab",
+  "tech_db": "Databases: MongoDB, PostgreSQL"
+}

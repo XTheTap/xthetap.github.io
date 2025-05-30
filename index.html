@@ -11,48 +11,53 @@
    </head>
 
    <body>
+      <div class="language-switcher">
+         <label>🌐</label>
+         <select id="globalLanguage">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+         </select>
+      </div>
+      
       <header>
          <div class="row">
             <div class="wrapper">
-               <h1 class="typing">Hi, I'm Ilya Zhukouski</h1>
+               <h1 class="typing" data-i18n="main_title"></h1>
             </div>
-            <h2>Software engineer with knowledge of <span>.NET</span>, <span>C++</span> and <span>WEB</span> creating software implementations for your problems and algorithms.</h2>
-            <a href="https://github.com/xTheTap/">> Github</a>
-            <a href="https://www.linkedin.com/in/%D0%B8%D0%BB%D1%8C%D1%8F-%D0%B6%D1%83%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9-394921227/">> Linkedin</a>
-            <a href="mailto:illia9842@gmail.com">> Mail</a>
-            <a href="tel:+375336501247">> Phone</a>
+            <p data-i18n="main_subtitle"></p>
+            <p data-i18n="help_subtitle"></p>
+            <ul>
+               <li><a href="https://github.com/xTheTap/" data-i18n="github"></a></li>
+               <li><a href="https://www.linkedin.com/in/%D0%B8%D0%BB%D1%8C%D1%8F-%D0%B6%D1%83%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9-394921227/" data-i18n="linkedin"></a></li>
+               <li><a href="mailto:illia9842@gmail.com" data-i18n="mail"></a></li>
+               <li><a href="tel:+375336501247" data-i18n="phone"></a></li>
+               <li><a href="https://t.me/illysha404" data-i18n="telegram"></a></li>
+            </ul>
          </div>
       </header> 
 
       <section>
          <div class="row">
-            <h2>Main about Me</h2>
-            <h3>I do programming since childhood (started with
-               Pascal, html, js). During education at college, where I learned C++ and C#. Spent last year studying
-               different C# technologies (like ASP.NET, Entity Framework, LINQ, etc),
-               improving my code (examining SOLID, ASP, WPF, patterns of
-               programming, OOP). Aavailable to work full time.               
-               Prefer to optimize code instead of development speed/
-            </h3>
-            <a href="https://drive.google.com/drive/folders/1Nz-_TKzdVlNcHEFtxK-4c4OWHPozriQx" class="button">> Download Resume</a>
-            <a href="/financeApp/index.html" class="button">> Open finance app</a> 
+            <h2 data-i18n="about_title"></h2>
+            <p data-i18n="about_first"></p>
+            <p data-i18n="about_second"></p>
+            <p data-i18n="about_third"></p>
+            <p data-i18n="about_fourth"></p>
+            <ul>
+               <li><a href="https://drive.google.com/drive/folders/1Nz-_TKzdVlNcHEFtxK-4c4OWHPozriQx" class="button" data-i18n="download_resume"></a></li>
+               <li><a href="/financeApp/index.html" class="button" data-i18n="open_finance_app"></a></li>
+            </ul>
          </div>
       </section> 
 
       <section>
          <div class="row">
             <div>
-               <h2><span>Working experience</span></h2>
-            </div>
-            <div>
-               <div>
-                     <h3>Texode technologies</h3>
-                     <p>Developed DLP system with WPF client and ASP server<span>&bull;</span> <em>March 2021 - March 2022</em></p>
-               </div>
-               <div>
-                     <h3>Alfa-bank</h3>
-                     <p>WPF, Visual basic, web and logging statistics<span>&bull;</span> <em>March 2022 - Now</em></p>
-               </div>
+               <h2 data-i18n="tech_title"></h2>
+               <p><span data-i18n="tech_backend"></span></p>
+               <p><span data-i18n="tech_frontend"></span></p>
+               <p><span data-i18n="tech_infra"></span></p>
+               <p><span data-i18n="tech_db"></span></p>
             </div>
          </div>
       </section>
@@ -60,19 +65,32 @@
       <section>
          <div class="row">
             <div>
-               <h2><span>Education</span></h>
-            </div>
-            <div>
+               <h2><span data-i18n="work_exp_title"></span></h2>
                <div>
-                     <h3>College of buisness and law</h3>
-                     <p>C++ , .NET Programmer <span>&bull;</span> <em>September 2018 - March 2022</em></p>
-               </div>
-               <div>
-                     <h3>Itransition education</h3>
-                     <p>Web developer <span>&bull;</span> <em>June 2021 - August 2021</em></p>
+                  <h3 data-i18n="work_lead_title"></h3>
+                  <p class="job-period" data-i18n="work_lead_period"></p>
+                  <ul>
+                     <li data-i18n="work_lead_points[0]"></li>
+                     <li data-i18n="work_lead_points[1]"></li>
+                     <li data-i18n="work_lead_points[2]"></li>
+                     <li data-i18n="work_lead_points[3]"></li>
+                     <li data-i18n="work_lead_points[4]"></li>
+                  </ul>
+                  <p><strong data-i18n="work_lead_stack"></strong></p>
+                  <h3 data-i18n="work_prev_title"></h3>
+                  <p class="job-period" data-i18n="work_prev_period"></p>
+                  <ul>
+                     <li data-i18n="work_prev_points[0]"></li>
+                     <li data-i18n="work_prev_points[1]"></li>
+                     <li data-i18n="work_prev_points[2]"></li>
+                  </ul>
+                  <p><strong data-i18n="work_prev_stack"></strong></p>
                </div>
             </div>
          </div>
-      </section>
+      </section> 
+
+     
+      <script src="js/lang.js"></script>
    </body>
 </html>
