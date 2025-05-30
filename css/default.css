@@ -9,6 +9,45 @@ body {
     font-family:Consolas;
     font-size:130%;
 }
+ul {
+    list-style: none;
+}
+.language-switcher {
+  position: fixed;
+  top: clamp(0.5rem, 2vw, 1.5rem);
+  right: clamp(0.5rem, 2vw, 1.5rem);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  z-index: 1000;
+  background: var(--bg);
+  padding: 0.2em 0.6em;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.language-switcher label {
+  margin-right: 0.3em;
+}
+
+.language-switcher select {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: inherit;
+  background: var(--bg);
+  color: var(--txt);
+}
+
+@media (max-width: 600px) {
+  .language-switcher {
+    font-size: 0.95rem;
+    padding: 0.15em 0.3em;
+    top: 0.3rem;
+    right: 0.3rem;
+  }
+  .language-switcher select {
+    padding: 0.15rem 0.3rem;
+  }
+}
 .row {
     max-width: 650px;
     margin: 20px auto 20px auto;
