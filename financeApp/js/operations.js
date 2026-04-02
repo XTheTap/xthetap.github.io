@@ -11,7 +11,10 @@ const operationFields = {
     billTransfer: document.getElementById('billTransfer'),
     tag: document.getElementById('tag'),
     comment: document.getElementById('comment'),
-    operationDate: document.getElementById('operationDate')
+    operationDate: document.getElementById('operationDate'),
+    newTagName: document.getElementById('newTagName'),
+    addNewTagBtn: document.getElementById('addNewTagBtn'),
+    newTagContainer: document.getElementById('newTagContainer')
 };
 
 const getOperations = () => getFromLocalStorage('operations');
@@ -91,6 +94,26 @@ operationTypeSelect.addEventListener('change', () => {
   handleOperationTypeChange(operationTypeSelect.value);
 });
 
+operationFields.tag.addEventListener('change', () => {
+    if (operationFields.tag.value === 'new') {
+        operationFields.newTagContainer.style.display = '';
+    } else {
+        operationFields.newTagContainer.style.display = 'none';
+    }
+});
+
+operationFields.addNewTagBtn.addEventListener('click', () => {
+    const name = operationFields.newTagName.value.trim();
+    if (!name) return;
+    const type = operationFields.operationType.value;
+    const newTag = addUserTag(name, type);
+    // Update the select
+    handleOperationTypeChange(type);
+    operationFields.tag.value = newTag.id;
+    operationFields.newTagName.value = '';
+    operationFields.newTagContainer.style.display = 'none';
+});
+
 document.querySelectorAll('#operation-options button').forEach(btn => {
   btn.addEventListener('click', () => {
     const type = btn.dataset.type;
@@ -126,12 +149,23 @@ function handleOperationTypeChange(type) {
             summTransferField.style.display = 'none';
             getTagsFromJson(type).then((tags) => {
                 tagSelect.innerHTML = '';
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                defaultOption.textContent = 'Выберите тэг';
+                tagSelect.appendChild(defaultOption);
                 tags.forEach((tag) => {
                     const option = document.createElement('option');
                     option.value = tag.id;
                     option.textContent = tag.name;
                     tagSelect.appendChild(option);
                 });
+                // Add option to add new tag
+                const newOption = document.createElement('option');
+                newOption.value = 'new';
+                newOption.textContent = 'Добавить новый тег';
+                tagSelect.appendChild(newOption);
             });
             break;
         case 'transfer':
