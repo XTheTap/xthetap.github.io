@@ -1,6 +1,7 @@
 const operationContainer = document.getElementById('operation');
 const operationForm = document.getElementById('operationForm');
 const operationTypeSelect = document.getElementById('operationType');
+const optionsDiv = document.getElementById('operation-options');
 
 const operationFields = {
     summ: document.getElementById('summ'),
@@ -9,7 +10,8 @@ const operationFields = {
     bill: document.getElementById('bill'),
     billTransfer: document.getElementById('billTransfer'),
     tag: document.getElementById('tag'),
-    comment: document.getElementById('comment')
+    comment: document.getElementById('comment'),
+    operationDate: document.getElementById('operationDate')
 };
 
 const getOperations = () => getFromLocalStorage('operations');
@@ -35,6 +37,7 @@ operationForm.addEventListener('submit', (e) => {
     const { value: tag } = operationFields.tag;
     const { value: comment } = operationFields.comment;
     const { value: summTransfer } = operationFields.summTransfer;
+    const { value: operationDate } = operationFields.operationDate;
 
     const amount = parseFloat(summ);
     const newOperation = { 
@@ -44,7 +47,7 @@ operationForm.addEventListener('submit', (e) => {
         tag, 
         comment, 
         type: operationType,
-        currentDate: Date.now(),
+        currentDate: operationDate ? new Date(operationDate).getTime() : Date.now(),
         billTransfer,
         summTransfer
     };
@@ -77,6 +80,7 @@ operationForm.addEventListener('submit', (e) => {
     updateAccountSelects();
     showSection('operations');
     operationForm.reset();
+    operationFields.operationDate.value = new Date().toISOString().split('T')[0];
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -92,6 +96,7 @@ document.querySelectorAll('#operation-options button').forEach(btn => {
     const type = btn.dataset.type;
 
     operationForm.reset();
+    operationFields.operationDate.value = new Date().toISOString().split('T')[0];
 
     if (operationTypeSelect) {
       operationTypeSelect.value = type === 'addOperation' ? 'expense' : type;
@@ -208,6 +213,7 @@ function renderOperationDetails(operationId) {
     if (operationFields.summTransfer) operationFields.summTransfer.value = operation.summTransfer || '';
     operationFields.tag.value = operation.tag || '';
     operationFields.comment.value = operation.comment || '';
+    operationFields.operationDate.value = operation.currentDate ? new Date(operation.currentDate).toISOString().split('T')[0] : '';
 
     Array.from(operationSection.querySelectorAll('input, select')).forEach(el => el.disabled = true);
 
@@ -246,6 +252,7 @@ document.getElementById('operationSave').addEventListener('click', function(e) {
     const summTransfer = operationFields.summTransfer.value;
     const tag = operationFields.tag.value;
     const comment = operationFields.comment.value;
+    const operationDate = operationFields.operationDate.value;
 
     currentOperation.summ = summ;
     currentOperation.type = operationType;
@@ -254,6 +261,7 @@ document.getElementById('operationSave').addEventListener('click', function(e) {
     currentOperation.summTransfer = summTransfer;
     currentOperation.tag = tag;
     currentOperation.comment = comment;
+    currentOperation.currentDate = operationDate ? new Date(operationDate).getTime() : Date.now();
 
     applyOperationBalance(currentOperation, accounts);
 
