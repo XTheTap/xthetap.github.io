@@ -50,7 +50,6 @@ operationForm.addEventListener('submit', (e) => {
     };
 
     const accounts = getFromLocalStorage('accounts');
-    // Корректируем балансы
     switch (operationType) {
         case 'expense': {
             const account = accounts.find(acc => acc.id === bill);
@@ -91,14 +90,15 @@ operationTypeSelect.addEventListener('change', () => {
 document.querySelectorAll('#operation-options button').forEach(btn => {
   btn.addEventListener('click', () => {
     const type = btn.dataset.type;
+
+    operationForm.reset();
+
     if (operationTypeSelect) {
       operationTypeSelect.value = type === 'addOperation' ? 'expense' : type;
       handleOperationTypeChange(operationTypeSelect.value);
     }
 
     optionsDiv.classList.add('hidden');
-    
-    operationForm.reset();
     Array.from(operationForm.querySelectorAll('input, select')).forEach(el => el.disabled = false);
 
     setVisibilityMode('adding', 'addOperation');

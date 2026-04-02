@@ -42,8 +42,8 @@
 
       <section id="other">
          <ul>
-            <li><button type="submit" data-i18n="import_data"></button></li>
-            <li><button type="submit" data-i18n="export_data"></button></li>
+            <li><button id="importDataBtn" type="button" data-i18n="import_data"></button></li>
+            <li><button id="exportDataBtn" type="button" data-i18n="export_data"></button></li>
             <li><a onclick="showSection('globalSettings')" data-i18n="app_settings"></a></li>
          </ul>
       </section>
@@ -166,13 +166,19 @@
             <li><a onclick="showSection('operations')">Операции</a></li>
             <li><a onclick="showSection('analithic'); requestAnimationFrame(() => {                                  
                   const treemapContainer = document.getElementById('treemap');
-                  createTreemap(treemapContainer, analyticData, 0, 0, treemapContainer.clientWidth, treemapContainer.clientHeight);});">
+                  if (window.createPieChart) {
+                    createPieChart(treemapContainer, analyticData);
+                  } else {
+                    createTreemap(treemapContainer, analyticData, 0, 0, treemapContainer.clientWidth, treemapContainer.clientHeight);
+                  }
+                });">
                                                    Аналитика</a></li>
             <li><a onclick="showSection('other')">Ещё</a></li>
          </ul>
       </nav>
    
       <script src="js/common.js"></script> 
+      <script src="js/csv.js"></script>
       <script src="js/tags.js"></script> 
       <script src="js/bills.js"></script> 
       <script src="js/operations.js"></script> 

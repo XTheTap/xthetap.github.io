@@ -52,3 +52,4 @@ window.updateAccountSelects = function() {
         billTransferSelect.appendChild(option2);
     });
 };
+
