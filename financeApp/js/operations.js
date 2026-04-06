@@ -9,8 +9,13 @@ const operationFields = {
     bill: document.getElementById('bill'),
     billTransfer: document.getElementById('billTransfer'),
     tag: document.getElementById('tag'),
-    comment: document.getElementById('comment')
+    comment: document.getElementById('comment'),
+    operationDate: document.getElementById('operationDate')
 };
+
+function setDefaultDate() {
+    operationFields.operationDate.value = new Date().toISOString().split('T')[0];
+}
 
 const getOperations = () => getFromLocalStorage('operations');
 const saveOperations = (operations) => saveToLocalStorage('operations', operations);
@@ -35,8 +40,10 @@ operationForm.addEventListener('submit', (e) => {
     const { value: tag } = operationFields.tag;
     const { value: comment } = operationFields.comment;
     const { value: summTransfer } = operationFields.summTransfer;
+    const { value: operationDate } = operationFields.operationDate;
 
     const amount = parseFloat(summ);
+    const date = operationDate ? new Date(operationDate).getTime() : Date.now();
     const newOperation = { 
         id: generateId(), 
         summ: amount, 
@@ -44,7 +51,7 @@ operationForm.addEventListener('submit', (e) => {
         tag, 
         comment, 
         type: operationType,
-        currentDate: Date.now(),
+        currentDate: date,
         billTransfer,
         summTransfer
     };
@@ -77,6 +84,7 @@ operationForm.addEventListener('submit', (e) => {
     updateAccountSelects();
     showSection('operations');
     operationForm.reset();
+    setDefaultDate();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -92,6 +100,7 @@ document.querySelectorAll('#operation-options button').forEach(btn => {
     const type = btn.dataset.type;
 
     operationForm.reset();
+    setDefaultDate();
 
     if (operationTypeSelect) {
       operationTypeSelect.value = type === 'addOperation' ? 'expense' : type;
@@ -208,6 +217,7 @@ function renderOperationDetails(operationId) {
     if (operationFields.summTransfer) operationFields.summTransfer.value = operation.summTransfer || '';
     operationFields.tag.value = operation.tag || '';
     operationFields.comment.value = operation.comment || '';
+    operationFields.operationDate.value = new Date(operation.currentDate).toISOString().split('T')[0];
 
     Array.from(operationSection.querySelectorAll('input, select')).forEach(el => el.disabled = true);
 
@@ -246,6 +256,7 @@ document.getElementById('operationSave').addEventListener('click', function(e) {
     const summTransfer = operationFields.summTransfer.value;
     const tag = operationFields.tag.value;
     const comment = operationFields.comment.value;
+    const operationDate = operationFields.operationDate.value;
 
     currentOperation.summ = summ;
     currentOperation.type = operationType;
@@ -254,6 +265,7 @@ document.getElementById('operationSave').addEventListener('click', function(e) {
     currentOperation.summTransfer = summTransfer;
     currentOperation.tag = tag;
     currentOperation.comment = comment;
+    currentOperation.currentDate = new Date(operationDate).getTime();
 
     applyOperationBalance(currentOperation, accounts);
 

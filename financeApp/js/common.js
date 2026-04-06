@@ -31,11 +31,9 @@ function showSection(id) {
     }
 }
 
-// Глобальные переменные для select'ов счетов (используются в операциях)
 window.billSelect = document.getElementById('bill');
 window.billTransferSelect = document.getElementById('billTransfer');
 
-// Функция для обновления select'ов счетов
 window.updateAccountSelects = function() {
     if (!window.billSelect || !window.billTransferSelect) return;
     billSelect.innerHTML = '<option value="" disabled selected>Выберите счёт</option>';
