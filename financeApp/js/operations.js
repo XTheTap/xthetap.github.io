@@ -119,15 +119,7 @@ function handleOperationTypeChange(type) {
             tagField.style.display = '';
             transferBillField.style.display = 'none';
             summTransferField.style.display = 'none';
-            getTagsFromJson(type).then((tags) => {
-                tagSelect.innerHTML = '';
-                tags.forEach((tag) => {
-                    const option = document.createElement('option');
-                    option.value = tag.id;
-                    option.textContent = tag.name;
-                    tagSelect.appendChild(option);
-                });
-            });
+            updateTagSelectors();
             break;
         case 'transfer':
             tagField.style.display = 'none';
