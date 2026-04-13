@@ -15,7 +15,7 @@ async function generateDataFromOperations(operations) {
 
     categories[tagName].value += Number(op.summ) || 0;
 
-    const parentTagId = tagId === 'Без тэга' ? null : await getPaerntTagNameById(tagId);
+    const parentTagId = tagId === 'Без тэга' ? null : await getParentTagNameById(tagId);
     if (parentTagId) {
       const parentName = await getTagNameById(parentTagId);
       if (!categories[parentName]) {
