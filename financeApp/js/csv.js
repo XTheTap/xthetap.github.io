@@ -1,168 +1,289 @@
+function toCsvValue(value) {
+    if (value === null || value === undefined) return '';
+
+    const str = String(value);
+
+    if (/[",\r\n]/.test(str)) {
+        return `"${str.replace(/"/g, '""')}"`;
+    }
+
+    return str;
+}
+
 function toCsvRow(values) {
-    return values.map(v => {
-        const s = v === null || v === undefined ? '' : String(v);
-        if (/[",\n]/.test(s)) {
-            return '"' + s.replace(/"/g, '""') + '"';
-        }
-        return s;
-    }).join(',');
+    return values.map(toCsvValue).join(',');
 }
 
 function parseCsv(text) {
+    if (!text || !text.trim()) return [];
+
+    text = text.replace(/^\uFEFF/, '');
+
     const rows = [];
-    const re = /(?:\s*"([^"]*(?:""[^"]*)*)"\s*|([^,]*))(,|$)/g;
     let row = [];
-    let m;
-    let col;
+    let field = '';
 
-    for (let i = 0; i < text.length;) {
-        re.lastIndex = i;
-        m = re.exec(text);
-        if (!m) break;
+    let inQuotes = false;
+    let i = 0;
 
-        col = m[1] !== undefined ? m[1].replace(/""/g, '"') : m[2];
-        row.push(col);
+    while (i < text.length) {
+        const char = text[i];
+        const next = text[i + 1];
 
-        i = re.lastIndex;
+        if (inQuotes) {
+            if (char === '"') {
+                if (next === '"') {
+                    field += '"';
+                    i += 2;
+                    continue;
+                }
 
-        if (m[3] === '' || i >= text.length) {
-            rows.push(row);
-            row = [];
-            break;
-        }
-
-        if (m[3] === ',') {
-            if (text[i] === '\n') {
-                i += 1;
-                rows.push(row);
-                row = [];
-            } else if (text[i] === '\r' && text[i + 1] === '\n') {
-                i += 2;
-                rows.push(row);
-                row = [];
+                inQuotes = false;
+                i++;
+                continue;
             }
+
+            field += char;
+            i++;
+            continue;
         }
+
+        if (char === '"') {
+            inQuotes = true;
+            i++;
+            continue;
+        }
+
+        if (char === ',') {
+            row.push(field);
+            field = '';
+            i++;
+            continue;
+        }
+
+        if (char === '\r' && next === '\n') {
+            row.push(field);
+            rows.push(row);
+
+            row = [];
+            field = '';
+
+            i += 2;
+            continue;
+        }
+
+        if (char === '\n') {
+            row.push(field);
+            rows.push(row);
+
+            row = [];
+            field = '';
+
+            i++;
+            continue;
+        }
+
+        field += char;
+        i++;
     }
 
-    if (row.length > 0) rows.push(row);
+    row.push(field);
 
-    if (rows.length === 0 && text.trim()) {
-        const lines = text.split(/\r?\n/).filter(Boolean);
-        for (const line of lines) {
-            rows.push(line.split(',').map(s => s.trim()));
-        }
+    if (row.some(v => v !== '')) {
+        rows.push(row);
     }
 
     return rows;
+}
+
+function safeNumber(value, fallback = 0) {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : fallback;
 }
 
 function exportCsvData() {
     const accounts = getFromLocalStorage('accounts') || [];
     const operations = getFromLocalStorage('operations') || [];
 
-    const header = ['recordType','id','name','currency','balance','debitBalance','summ','type','bill','billTransfer','summTransfer','tag','comment','currentDate'];
-    const lines = [toCsvRow(header)];
+    const header = [
+        'recordType',
+        'id',
+        'name',
+        'currency',
+        'balance',
+        'debitBalance',
+        'summ',
+        'type',
+        'bill',
+        'billTransfer',
+        'summTransfer',
+        'tag',
+        'comment',
+        'currentDate'
+    ];
 
-    accounts.forEach(acc => {
-        lines.push(toCsvRow(['account', acc.id, acc.name, acc.currency, acc.balance, acc.debitBalance || '', '', '', '', '', '', '', '', '']));
+    const rows = [toCsvRow(header)];
+
+    for (const acc of accounts) {
+        rows.push(toCsvRow([
+            'account',
+            acc.id,
+            acc.name,
+            acc.currency,
+            acc.balance,
+            acc.debitBalance,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        ]));
+    }
+
+    for (const op of operations) {
+        rows.push(toCsvRow([
+            'operation',
+            op.id,
+            '',
+            '',
+            '',
+            '',
+            op.summ,
+            op.type,
+            op.bill,
+            op.billTransfer,
+            op.summTransfer,
+            op.tag,
+            op.comment,
+            op.currentDate
+        ]));
+    }
+
+    const csv = rows.join('\r\n');
+
+    const blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8'
     });
 
-    operations.forEach(op => {
-        lines.push(toCsvRow(['operation', op.id, '', '', '', '', op.summ, op.type, op.bill, op.billTransfer || '', op.summTransfer || '', op.tag || '', op.comment || '', op.currentDate]));
-    });
-
-    const csv = lines.join('\r\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = `finance_data_${new Date().toISOString().slice(0,10)}.csv`;
-    link.style.display = 'none';
+    link.download = `finance_data_${new Date().toISOString().slice(0, 10)}.csv`;
+
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
+
     URL.revokeObjectURL(url);
 }
 
 function importCsvData(file) {
     const reader = new FileReader();
-    reader.onload = function(event) {
-        const text = event.target.result;
-        const rows = parseCsv(text).filter(r => r.length > 0);
-        if (rows.length < 2) {
-            alert('Не удалось импортировать: нет данных.');
-            return;
-        }
 
-        const [header, ...dataRows] = rows;
-        const idx = {};
-        header.forEach((h, i) => idx[h] = i);
+    reader.onload = ({ target }) => {
+        try {
+            const text = target.result;
+            const rows = parseCsv(text);
 
-        const accounts = [];
-        const operations = [];
-
-        dataRows.forEach(cols => {
-            const recType = (cols[idx.recordType] || '').trim().toLowerCase();
-            if (recType === 'account') {
-                accounts.push({
-                    id: cols[idx.id] || generateId(),
-                    name: cols[idx.name] || 'Без имени',
-                    currency: cols[idx.currency] || 'USD',
-                    balance: parseFloat(cols[idx.balance]) || 0,
-                    debitBalance: parseFloat(cols[idx.debitBalance]) || 0
-                });
-            } else if (recType === 'operation') {
-                operations.push({
-                    id: cols[idx.id] || generateId(),
-                    summ: parseFloat(cols[idx.summ]) || 0,
-                    type: cols[idx.type] || 'expense',
-                    bill: cols[idx.bill] || '',
-                    billTransfer: cols[idx.billTransfer] || '',
-                    summTransfer: parseFloat(cols[idx.summTransfer]) || 0,
-                    tag: cols[idx.tag] || '',
-                    comment: cols[idx.comment] || '',
-                    currentDate: Number(cols[idx.currentDate]) || Date.now()
-                });
+            if (rows.length < 2) {
+                alert('Не удалось импортировать: файл пуст.');
+                return;
             }
-        });
 
-        saveToLocalStorage('accounts', accounts);
-        saveToLocalStorage('operations', operations);
-        updateAccountSelects();
-        renderAccounts();
-        renderOperations();
+            const [header, ...dataRows] = rows;
 
-        alert('Импорт завершен.');
+            const indexMap = {};
+            header.forEach((name, index) => {
+                indexMap[name.trim()] = index;
+            });
+
+            const accounts = [];
+            const operations = [];
+
+            for (const cols of dataRows) {
+                if (!cols.length) continue;
+
+                const recordType = (
+                    cols[indexMap.recordType] || ''
+                ).trim().toLowerCase();
+
+                if (recordType === 'account') {
+                    accounts.push({
+                        id: cols[indexMap.id] || generateId(),
+                        name: cols[indexMap.name] || 'Без имени',
+                        currency: cols[indexMap.currency] || 'USD',
+                        balance: safeNumber(cols[indexMap.balance]),
+                        debitBalance: safeNumber(cols[indexMap.debitBalance])
+                    });
+                }
+
+                if (recordType === 'operation') {
+                    operations.push({
+                        id: cols[indexMap.id] || generateId(),
+                        summ: safeNumber(cols[indexMap.summ]),
+                        type: cols[indexMap.type] || 'expense',
+                        bill: cols[indexMap.bill] || '',
+                        billTransfer: cols[indexMap.billTransfer] || '',
+                        summTransfer: safeNumber(cols[indexMap.summTransfer]),
+                        tag: cols[indexMap.tag] || '',
+                        comment: cols[indexMap.comment] || '',
+                        currentDate: safeNumber(
+                            cols[indexMap.currentDate],
+                            Date.now()
+                        )
+                    });
+                }
+            }
+
+            saveToLocalStorage('accounts', accounts);
+            saveToLocalStorage('operations', operations);
+
+            updateAccountSelects();
+            renderAccounts();
+            renderOperations();
+
+            alert(
+                `Импорт завершен.\nСчетов: ${accounts.length}\nОпераций: ${operations.length}`
+            );
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка импорта CSV.');
+        }
     };
 
-    reader.onerror = function() {
+    reader.onerror = () => {
         alert('Ошибка чтения файла.');
     };
 
-    reader.readAsText(file);
+    reader.readAsText(file, 'utf-8');
 }
 
 function setupCsvButtons() {
-    const exportBtn = document.getElementById('exportDataBtn');
-    const importBtn = document.getElementById('importDataBtn');
+    document
+        .getElementById('exportDataBtn')
+        ?.addEventListener('click', exportCsvData);
 
-    if (exportBtn) {
-        exportBtn.addEventListener('click', exportCsvData);
-    }
-    if (importBtn) {
-        importBtn.addEventListener('click', () => {
+    document
+        .getElementById('importDataBtn')
+        ?.addEventListener('click', () => {
             const input = document.createElement('input');
+
             input.type = 'file';
             input.accept = '.csv,text/csv';
-            input.addEventListener('change', () => {
-                if (input.files.length) {
-                    importCsvData(input.files[0]);
+
+            input.onchange = () => {
+                const file = input.files?.[0];
+                if (file) {
+                    importCsvData(file);
                 }
-            });
+            };
+
             input.click();
         });
-    }
 }
 
 document.addEventListener('DOMContentLoaded', setupCsvButtons);
