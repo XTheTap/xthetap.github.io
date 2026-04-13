@@ -32,5 +32,7 @@
   "accounts": "Счета",
   "operations": "Операции",
   "analytics": "Аналитика",
-  "more": "Ещё"
+  "more": "Ещё",
+  "manage_tags": "Управление тэгами",
+  "add_tag": "Добавить тэг"
 }

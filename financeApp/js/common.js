@@ -28,6 +28,9 @@ function showSection(id) {
     const active = document.getElementById(id);
     if (active) {
       active.classList.add('active');
+      if (id === 'manageTags' && window.renderTags) {
+        window.renderTags();
+      }
     }
 }
 

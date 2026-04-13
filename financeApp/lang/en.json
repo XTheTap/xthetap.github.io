@@ -32,5 +32,7 @@
   "accounts": "Accounts",
   "operations": "Operations",
   "analytics": "Analytics",
-  "more": "More"
+  "more": "More",
+  "manage_tags": "Manage tags",
+  "add_tag": "Add tag"
 }

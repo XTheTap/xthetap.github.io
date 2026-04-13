@@ -44,6 +44,7 @@
          <ul>
             <li><button id="importDataBtn" type="button" data-i18n="import_data"></button></li>
             <li><button id="exportDataBtn" type="button" data-i18n="export_data"></button></li>
+            <li><a onclick="showSection('manageTags')" data-i18n="manage_tags"></a></li>
             <li><a onclick="showSection('globalSettings')" data-i18n="app_settings"></a></li>
          </ul>
       </section>
@@ -60,6 +61,33 @@
          <select id="globalTheme">
             <option value="" disabled selected>Выберите тему</option>
          </select>
+      </section>
+
+      <section id="manageTags">
+         <h2 data-i18n="manage_tags"></h2>
+         <div id="tagsList"></div>
+         <button id="addTagBtn" data-i18n="add_tag"></button>
+      </section>
+
+      <section id="addTag">
+         <h2 data-i18n="add_tag"></h2>
+         <form id="tagForm">
+            <ul>
+               <li><input type="text" id="tagName" placeholder="Tag name" required></li>
+               <li>
+                  <select id="tagType" required>
+                     <option value="" disabled selected>Choose type</option>
+                     <option value="expense">Expense</option>
+                     <option value="income">Income</option>
+                  </select>
+               </li>
+               <li><input type="text" id="tagIcon" placeholder="Icon URL (optional)"></li>
+               <li><input type="number" id="tagParent" placeholder="Parent ID (optional)"></li>
+               <li><label class="inline-label">Obligation <input type="checkbox" id="tagObligation"></label></li>
+            </ul>
+            <button type="submit" data-i18n="add"></button>
+            <button type="button" id="cancelTagBtn" data-i18n="cancel"></button>
+         </form>
       </section>
 
       <section id="addBill">
@@ -181,6 +209,8 @@
       <script src="js/common.js"></script> 
       <script src="js/csv.js"></script>
       <script src="js/tags.js"></script> 
+      <script src="js/manageTags.js"></script>
+      <script src="js/addTag.js"></script>
       <script src="js/bills.js"></script> 
       <script src="js/operations.js"></script> 
       <script src="js/selector.js"></script>
