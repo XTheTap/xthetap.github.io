@@ -104,6 +104,7 @@ function safeNumber(value, fallback = 0) {
 function exportCsvData() {
     const accounts = getFromLocalStorage('accounts') || [];
     const operations = getFromLocalStorage('operations') || [];
+    const userTags = JSON.parse(localStorage.getItem('userTags')) || { expense: [], income: [] };
 
     const header = [
         'recordType',
@@ -119,7 +120,10 @@ function exportCsvData() {
         'summTransfer',
         'tag',
         'comment',
-        'currentDate'
+        'currentDate',
+        'icon',
+        'parent',
+        'obligation'
     ];
 
     const rows = [toCsvRow(header)];
@@ -132,6 +136,9 @@ function exportCsvData() {
             acc.currency,
             acc.balance,
             acc.debitBalance,
+            '',
+            '',
+            '',
             '',
             '',
             '',
@@ -158,8 +165,35 @@ function exportCsvData() {
             op.summTransfer,
             op.tag,
             op.comment,
-            op.currentDate
+            op.currentDate,
+            '',
+            '',
+            ''
         ]));
+    }
+
+    for (const tagType of ['expense', 'income']) {
+        for (const tag of userTags[tagType]) {
+            rows.push(toCsvRow([
+                'tag',
+                tag.id,
+                tag.name,
+                '',
+                '',
+                '',
+                '',
+                tagType,
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                tag.icon || '',
+                tag.parent || '',
+                tag.obligation || false
+            ]));
+        }
     }
 
     const csv = rows.join('\r\n');
@@ -203,6 +237,7 @@ function importCsvData(file) {
 
             const accounts = [];
             const operations = [];
+            const userTags = { expense: [], income: [] };
 
             for (const cols of dataRows) {
                 if (!cols.length) continue;
@@ -237,17 +272,32 @@ function importCsvData(file) {
                         )
                     });
                 }
+
+                if (recordType === 'tag') {
+                    const tagType = cols[indexMap.type] || 'expense';
+                    if (tagType === 'expense' || tagType === 'income') {
+                        userTags[tagType].push({
+                            id: cols[indexMap.id] || Date.now(),
+                            name: cols[indexMap.name] || 'Без имени',
+                            icon: cols[indexMap.icon] || null,
+                            parent: cols[indexMap.parent] || null,
+                            obligation: cols[indexMap.obligation] === 'true'
+                        });
+                    }
+                }
             }
 
             saveToLocalStorage('accounts', accounts);
             saveToLocalStorage('operations', operations);
+            localStorage.setItem('userTags', JSON.stringify(userTags));
 
             updateAccountSelects();
             renderAccounts();
             renderOperations();
+            updateTagSelectors();
 
             alert(
-                `Импорт завершен.\nСчетов: ${accounts.length}\nОпераций: ${operations.length}`
+                `Импорт завершен.\nСчетов: ${accounts.length}\nОпераций: ${operations.length}\nТегов: ${userTags.expense.length + userTags.income.length}`
             );
         } catch (error) {
             console.error(error);
