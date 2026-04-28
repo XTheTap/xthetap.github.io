@@ -172,8 +172,8 @@ function exportCsvData() {
         ]));
     }
 
-    for (const tagType of ['expense', 'income']) {
-        for (const tag of userTags[tagType]) {
+    for (const type of ['expense', 'income']) {
+        for (const tag of userTags[type]) {
             rows.push(toCsvRow([
                 'tag',
                 tag.id,
@@ -182,7 +182,7 @@ function exportCsvData() {
                 '',
                 '',
                 '',
-                tagType,
+                type,
                 '',
                 '',
                 '',
@@ -224,7 +224,7 @@ function importCsvData(file) {
             const rows = parseCsv(text);
 
             if (rows.length < 2) {
-                alert('Не удалось импортировать: файл пуст.');
+                alert('Failed to import: file is empty.');
                 return;
             }
 
@@ -274,14 +274,14 @@ function importCsvData(file) {
                 }
 
                 if (recordType === 'tag') {
-                    const tagType = cols[indexMap.type] || 'expense';
-                    if (tagType === 'expense' || tagType === 'income') {
-                        userTags[tagType].push({
-                            id: cols[indexMap.id] || Date.now(),
+                    const type = cols[indexMap.type] || 'expense';
+                    if (type === 'expense' || type === 'income') {
+                        userTags[type].push({
+                            id: cols[indexMap.id] || generateId(),
                             name: cols[indexMap.name] || 'Без имени',
                             icon: cols[indexMap.icon] || null,
                             parent: cols[indexMap.parent] || null,
-                            obligation: cols[indexMap.obligation] === 'true'
+                            obligation: cols[indexMap.obligation] === 'true' || false
                         });
                     }
                 }
@@ -297,16 +297,16 @@ function importCsvData(file) {
             updateTagSelectors();
 
             alert(
-                `Импорт завершен.\nСчетов: ${accounts.length}\nОпераций: ${operations.length}\nТегов: ${userTags.expense.length + userTags.income.length}`
+                `Import done.\nAccounts: ${accounts.length}\nOperations: ${operations.length}\nTags: ${userTags.expense.length + userTags.income.length}`
             );
         } catch (error) {
             console.error(error);
-            alert('Ошибка импорта CSV.');
+            alert('Error importing CSV.');
         }
     };
 
     reader.onerror = () => {
-        alert('Ошибка чтения файла.');
+        alert('Error reading file.');
     };
 
     reader.readAsText(file, 'utf-8');
