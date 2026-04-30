@@ -72,12 +72,14 @@ function describeArc(x, y, radius, startAngle, endAngle) {
 }
 
 function createPieChart(container, data) {
+  container.classList.add('analytic-chart');
   container.innerHTML = '';
   const slices = data.children || [];
   const total = slices.reduce((sum, s) => sum + s.value, 0);
 
   if (!total) {
     const empty = document.createElement('p');
+    empty.className = 'chart-empty';
     empty.textContent = 'Нет данных за текущий месяц';
     container.appendChild(empty);
     return;
@@ -90,6 +92,8 @@ function createPieChart(container, data) {
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.style.display = 'block';
   svg.style.width = '100%';
   svg.style.height = 'auto';
 
@@ -115,26 +119,19 @@ function createPieChart(container, data) {
   container.appendChild(svg);
 
   const legend = document.createElement('div');
-  legend.style.marginTop = '12px';
-  legend.style.display = 'grid';
-  legend.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 1fr))';
-  legend.style.gap = '8px';
+  legend.className = 'chart-legend';
 
   slices.forEach(slice => {
     const row = document.createElement('div');
-    row.style.display = 'flex';
-    row.style.alignItems = 'center';
+    row.className = 'chart-legend-item';
 
     const dot = document.createElement('span');
-    dot.style.width = '12px';
-    dot.style.height = '12px';
-    dot.style.borderRadius = '50%';
-    dot.style.display = 'inline-block';
+    dot.className = 'chart-legend-dot';
     dot.style.backgroundColor = slice.color || '#999';
-    dot.style.marginRight = '8px';
 
     const percent = (slice.value / total * 100).toFixed(1);
     const text = document.createElement('span');
+    text.className = 'chart-legend-text';
     text.textContent = `${slice.name}: ${slice.value.toFixed(2)} (${percent}%)`;
 
     row.appendChild(dot);
@@ -143,7 +140,7 @@ function createPieChart(container, data) {
   });
 
   const totalRow = document.createElement('p');
-  totalRow.style.marginTop = '8px';
+  totalRow.className = 'chart-summary';
   totalRow.textContent = `Итого: ${total.toFixed(2)} (100%)`;
 
   container.appendChild(legend);
