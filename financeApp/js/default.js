@@ -4,7 +4,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Вычисляем высоту навигации и устанавливаем CSS переменную
 function adjustSectionHeight() {
   const nav = document.querySelector('nav');
   if (nav) {
@@ -13,11 +12,8 @@ function adjustSectionHeight() {
   }
 }
 
-// Вызываем при полной загрузке страницы
 window.addEventListener('load', adjustSectionHeight);
-// Вызываем при изменении размера окна
 window.addEventListener('resize', adjustSectionHeight);
-// Также вызываем при DOMContentLoaded с небольшой задержкой
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(adjustSectionHeight, 100);
 });

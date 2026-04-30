@@ -171,7 +171,7 @@ select option {
     height: auto;
     margin: 0 auto;
 }
-#analithic {
+#analithic.active {
     padding: 18px 14px 90px;
     display: flex;
     flex-direction: column;
